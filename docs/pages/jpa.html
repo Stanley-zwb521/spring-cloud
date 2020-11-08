@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>11. Spring Data JPA</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="12. Spring Data REST" href="springdatarest.html" />
+    <link rel="prev" title="10. Spring Boot Entity" href="entity.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">11. Spring Data JPA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">11.1. 依赖</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jpa">11.2. 创建和删除JPA数据库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#query-creation">11.3. Query Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-query">11.4. Using &#64;Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-named-parameters">11.5. Using Named Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-spel-expressions">11.6. Using SpEL Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modifying-queries">11.7. Modifying Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#init">11.8. Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">11.9. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">11. </span>Spring Data JPA</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-data-jpa">
+<h1><span class="section-number">11. </span>Spring Data JPA<a class="headerlink" href="#spring-data-jpa" title="Permalink to this headline">¶</a></h1>
+<p>Spring Data JPA旨在通过减少实际需要的工作量来显著改善数据访问层的实现。 作为开发人员，仅需编写repository接口，包括自定义查找器方法，Spring将自动提供实现。</p>
+<div class="section" id="id1">
+<h2><span class="section-number">11.1. </span>依赖<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="jpa">
+<h2><span class="section-number">11.2. </span>创建和删除JPA数据库<a class="headerlink" href="#jpa" title="Permalink to this headline">¶</a></h2>
+<p>默认情况下，仅当您使用嵌入式数据库（H2，HSQL或Derby）时，才会自动创建JPA数据库。您可以使用spring.jpa.*属性显式配置JPA设置。例如，要创建和删除表，可以将以下行添加到application.properties:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spring</span><span class="o">.</span><span class="n">jpa</span><span class="o">.</span><span class="n">hibernate</span><span class="o">.</span><span class="n">ddl</span><span class="o">-</span><span class="n">auto</span><span class="o">=</span><span class="n">create</span><span class="o">-</span><span class="n">drop</span>
+</pre></div>
+</div>
+<p>值可以是这些：</p>
+<ul class="simple">
+<li><p>create：每次运行程序时，都会重新创建表，故而数据会丢失</p></li>
+<li><p>create-drop：每次运行程序时会先创建表结构，然后待程序结束时清空表</p></li>
+<li><p>upadte：每次运行程序，没有表时会创建表，如果对象发生改变会更新表结构，原有数据不会清空，只会更新（推荐使用）</p></li>
+<li><p>validate：运行程序会校验数据与数据库的字段类型是否相同，字段不同会报错</p></li>
+<li><p>none: 禁用DDL处理</p></li>
+</ul>
+</div>
+<div class="section" id="query-creation">
+<h2><span class="section-number">11.3. </span>Query Creation<a class="headerlink" href="#query-creation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="n">interface</span> <span class="n">UserRepository</span> <span class="n">extends</span> <span class="n">Repository</span><span class="o">&lt;</span><span class="n">User</span><span class="p">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">findByEmailAddressAndLastname</span><span class="p">(</span><span class="n">String</span> <span class="n">emailAddress</span><span class="p">,</span> <span class="n">String</span> <span class="n">lastname</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.query-methods.query-creation">https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.query-methods.query-creation</a></p>
+</div>
+<div class="section" id="using-query">
+<h2><span class="section-number">11.4. </span>Using &#64;Query<a class="headerlink" href="#using-query" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="n">interface</span> <span class="n">UserRepository</span> <span class="n">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="p">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="p">{</span>
+<span class="nd">@Query</span><span class="p">(</span><span class="s2">&quot;select u from User u where u.emailAddress = ?1&quot;</span><span class="p">)</span>
+<span class="n">User</span> <span class="n">findByEmailAddress</span><span class="p">(</span><span class="n">String</span> <span class="n">emailAddress</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.query-methods.at-query">https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.query-methods.at-query</a></p>
+</div>
+<div class="section" id="using-named-parameters">
+<h2><span class="section-number">11.5. </span>Using Named Parameters<a class="headerlink" href="#using-named-parameters" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="n">interface</span> <span class="n">UserRepository</span> <span class="n">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="p">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="p">{</span>
+
+<span class="nd">@Query</span><span class="p">(</span><span class="s2">&quot;select u from User u where u.firstname = :firstname or u.lastname = :lastname&quot;</span><span class="p">)</span>
+<span class="n">User</span> <span class="n">findByLastnameOrFirstname</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s2">&quot;lastname&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">lastname</span><span class="p">,</span>
+                                <span class="nd">@Param</span><span class="p">(</span><span class="s2">&quot;firstname&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">firstname</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-spel-expressions">
+<h2><span class="section-number">11.6. </span>Using SpEL Expressions<a class="headerlink" href="#using-spel-expressions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@Entity</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">User</span> <span class="p">{</span>
+
+<span class="nd">@Id</span>
+<span class="nd">@GeneratedValue</span>
+<span class="n">Long</span> <span class="nb">id</span><span class="p">;</span>
+
+<span class="n">String</span> <span class="n">lastname</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">interface</span> <span class="n">UserRepository</span> <span class="n">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="p">,</span><span class="n">Long</span><span class="o">&gt;</span> <span class="p">{</span>
+
+<span class="nd">@Query</span><span class="p">(</span><span class="s2">&quot;select u from #{#entityName} u where u.lastname = ?1&quot;</span><span class="p">)</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">findByLastname</span><span class="p">(</span><span class="n">String</span> <span class="n">lastname</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.query.spel-expressions">https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.query.spel-expressions</a></p>
+</div>
+<div class="section" id="modifying-queries">
+<h2><span class="section-number">11.7. </span>Modifying Queries<a class="headerlink" href="#modifying-queries" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@Modifying</span>
+<span class="nd">@Query</span><span class="p">(</span><span class="s2">&quot;update User u set u.firstname = ?1 where u.lastname = ?2&quot;</span><span class="p">)</span>
+<span class="nb">int</span> <span class="n">setFixedFirstnameFor</span><span class="p">(</span><span class="n">String</span> <span class="n">firstname</span><span class="p">,</span> <span class="n">String</span> <span class="n">lastname</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.modifying-queries">https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#jpa.modifying-queries</a></p>
+</div>
+<div class="section" id="init">
+<h2><span class="section-number">11.8. </span>Init<a class="headerlink" href="#init" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.baeldung.com/running-setup-logic-on-startup-in-spring">https://www.baeldung.com/running-setup-logic-on-startup-in-spring</a></p>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">11.9. </span>参考<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#reference">https://docs.spring.io/spring-data/jpa/docs/2.2.0.RELEASE/reference/html/#reference</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="springdatarest.html" class="btn btn-neutral float-right" title="12. Spring Data REST" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="entity.html" class="btn btn-neutral float-left" title="10. Spring Boot Entity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

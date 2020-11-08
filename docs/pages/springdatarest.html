@@ -1,0 +1,408 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>12. Spring Data REST</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="13. Spring Boot Redis" href="redis.html" />
+    <link rel="prev" title="11. Spring Data JPA" href="jpa.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">12. Spring Data REST</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">12.1. 概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maven">12.2. Maven依赖</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#demo">12.3. Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">12.4. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">12. </span>Spring Data REST</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-data-rest">
+<h1><span class="section-number">12. </span>Spring Data REST<a class="headerlink" href="#spring-data-rest" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><span class="section-number">12.1. </span>概要<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>本文将解释Spring Data REST的基础知识，并展示如何使用它来构建简单的REST API。
+通常，Spring Data REST是在Spring Data项目的基础上构建的，可轻松构建连接到Spring Data存储库的hypermedia-driven的REST Web服务-所有这些都使用HAL作为驱动超媒体类型。</p>
+<p>它减少了通常与此类任务相关的大量手动工作，并使Web应用程序的基本CRUD功能实现变得非常简单。</p>
+<p>在本文中，我们将研究如何在Spring Data REST中处理实体之间的关系。 我们将重点研究Spring Data REST为存储库提供的关联资源，同时考虑可以定义的每种关系类型。 为了避免任何额外的设置，我们将使用H2嵌入式数据库作为示例。</p>
+</div>
+<div class="section" id="maven">
+<h2><span class="section-number">12.2. </span>Maven依赖<a class="headerlink" href="#maven" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-rest<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="demo">
+<h2><span class="section-number">12.3. </span>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>创建Entity</p></li>
+</ol>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.rest.entity</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.GeneratedValue</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.GenerationType</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="p">;</span>
+
+<span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebsiteUser</span> <span class="p">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="p">.</span><span class="na">AUTO</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="p">;</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="p">;</span>
+
+    <span class="c1">// standard getters and setters</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li><p>创建Entity</p></li>
+</ol>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.rest.repository</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.PagingAndSortingRepository</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.query.Param</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.rest.core.annotation.RepositoryRestResource</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.example.rest.entity.WebsiteUser</span><span class="p">;</span>
+
+<span class="nd">@RepositoryRestResource</span><span class="p">(</span><span class="n">collectionResourceRel</span> <span class="o">=</span> <span class="s">&quot;users&quot;</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="s">&quot;users&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="n">PagingAndSortingRepository</span><span class="o">&lt;</span><span class="n">WebsiteUser</span><span class="p">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">WebsiteUser</span><span class="o">&gt;</span> <span class="nf">findByName</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">name</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li><p>增加user</p></li>
+</ol>
+<div class="highlight-sh notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>curl -i -X POST -H <span class="s2">&quot;Content-Type:application/json&quot;</span> -d <span class="s1">&#39;{  &quot;name&quot; : &quot;Test&quot;, &quot;email&quot; : &quot;test@test.com&quot; }&#39;</span> http://localhost:8080/users
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="4">
+<li><p>访问 <a class="reference external" href="http://localhost:8080/users/1">http://localhost:8080/users/1</a></p></li>
+</ol>
+<div class="highlight-ActionScript notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Test&quot;</span><span class="o">,</span>
+    <span class="s2">&quot;email&quot;</span><span class="o">:</span> <span class="s2">&quot;test@test.com&quot;</span><span class="o">,</span>
+    <span class="s2">&quot;_links&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;self&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;href&quot;</span><span class="o">:</span> <span class="s2">&quot;http://localhost:8080/users/1&quot;</span>
+        <span class="p">}</span><span class="o">,</span>
+    <span class="s2">&quot;websiteUser&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;href&quot;</span><span class="o">:</span> <span class="s2">&quot;http://localhost:8080/users/1&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="5">
+<li><p>查询 <a class="reference external" href="http://localhost:8080/users/search/findByName?name=Test">http://localhost:8080/users/search/findByName?name=Test</a></p></li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">12.4. </span>参考<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.baeldung.com/spring-data-rest-intro">https://www.baeldung.com/spring-data-rest-intro</a></p></li>
+<li><p><a class="reference external" href="https://www.baeldung.com/spring-data-rest-relationships">https://www.baeldung.com/spring-data-rest-relationships</a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="redis.html" class="btn btn-neutral float-right" title="13. Spring Boot Redis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="jpa.html" class="btn btn-neutral float-left" title="11. Spring Data JPA" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

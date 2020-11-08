@@ -1,0 +1,854 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>18. Spring Boot Actuator</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="19. Spring Boot RESTful" href="restful.html" />
+    <link rel="prev" title="17. Spring Boot Security" href="security.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">18. Spring Boot Actuator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#actuator">18.1. Actuator介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">18.2. 启用Actuator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spring-boot-1-x-actuator">18.3. Spring Boot 1.X 中的Actuator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">18.3.1. 分析Actuator的接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">18.3.2. 显示配置细节</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">18.3.3. 利用接口显示指标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">18.3.4. 显示应用程序信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">18.3.5. 关闭应用程序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">18.3.6. 自定义Actuator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">18.3.6.1. 启用或禁用某个Actuator接口</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id">18.3.6.2. 更改接口ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">18.3.6.3. 更改Actuator接口的灵敏度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">18.3.6.4. 编写自定义健康指标</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#endpoint">18.3.7. 创建一个自定义Endpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">18.3.8. 对Actuator接口进行安全控制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-customization">18.3.9. Further Customization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spring-boot-2-x-actuator">18.4. Spring Boot 2.X 中的Actuator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id12">18.4.1. 分析Actuator的接口</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">18.4.1.1. 启用或禁用某个Endpoint</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">18.4.2. 创建一个自定义endpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git">18.4.3. 显示git详细信息</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id15">18.4.3.1. 指定git地址</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">18.4.3.2. 显示全部信息</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#git-properties">18.4.3.3. 关闭git.properties文件的创建</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verbosity">18.4.3.4. Verbosity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">18.4.3.5. 过滤敏感信息</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">18.4.4. 对Actuator接口进行安全控制</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spring-boot-admin">18.5. spring-boot-admin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">18.6. 参考</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id20">18.7. 小结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">18. </span>Spring Boot Actuator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-boot-actuator">
+<h1><span class="section-number">18. </span>Spring Boot Actuator<a class="headerlink" href="#spring-boot-actuator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="actuator">
+<h2><span class="section-number">18.1. </span>Actuator介绍<a class="headerlink" href="#actuator" title="Permalink to this headline">¶</a></h2>
+<p>在本节中，我们将介绍Spring Boot Actuator。 我们将首先介绍基础知识，然后详细讨论Spring Boot 1.x和2.x中的可用内容。</p>
+<p>本质上，Actuator为Spring Boot的应用带来了监控生产应用的功能：监视应用程序，收集指标，了解流量或数据库状态。
+Actuator的主要好处是，我们可以获得生产级工具，而不必自己真正实现这些功能。Actuator主要用于公开有关正在运行的应用程序的操作信息-运行状况，指标，信息，dump，环境等。它使用HTTP endpoints或JMX Bean使我们能够与其交互。</p>
+<p>一旦Actuator的依赖关系位于类路径classpath上，用户可以立即使用某些endpoints。 与大多数Spring模块一样，我们可以通过多种方式轻松地对其进行配置或扩展。</p>
+</div>
+<div class="section" id="id1">
+<h2><span class="section-number">18.2. </span>启用Actuator<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>要在您的应用程序中启用Spring Boot Actuator，您必须在包管理器中添加Spring Boot Actuator依赖项。通过添加Starter依赖项spring-boot-starter-actuator，这是在Spring应用程序中启用actuator功能的最简单方法。</p>
+<ul class="simple">
+<li><p>Maven工程中：</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependencies&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Gradle工程中：</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-groovy notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">compile</span><span class="o">(</span><span class="s2">&quot;org.springframework.boot: spring-boot-starter-actuator&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="spring-boot-1-x-actuator">
+<h2><span class="section-number">18.3. </span>Spring Boot 1.X 中的Actuator<a class="headerlink" href="#spring-boot-1-x-actuator" title="Permalink to this headline">¶</a></h2>
+<p>在1.x中，执行器遵循 R/W 模型，这意味着我们可以对其进行读取或写入。例如，我们可以检索指标或应用程序的运行状况。 另外，我们可以优雅地终止我们的应用程序或更改日志记录配置。</p>
+<p>为了使其工作，Actuator要求Spring MVC通过HTTP公开其endpoints。 不支持其他技术。</p>
+<p>在1.x中，Actuator带来了自己的安全模型。 它利用了Spring Security安全架构，但是需要与应用程序的其余部分独立配置。而且，大多数endpoints都是sensitive状态，即私密的，这意味着它们不是完全公开的，换句话说，大多数信息将被省略。 例如：/metrics。</p>
+<div class="section" id="id2">
+<h3><span class="section-number">18.3.1. </span>分析Actuator的接口<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>In 1.x, Here are some of the most common endpoints Boot provides out of the box:</p>
+<ul class="simple">
+<li><p>/health – Shows application health information (a simple ‘status’ when accessed over an unauthenticated connection or full message details when authenticated); it’s not sensitive by default</p></li>
+<li><p>/info – Displays arbitrary application info; not sensitive by default</p></li>
+<li><p>/metrics – Shows ‘metrics’ information for the current application; it’s also sensitive by default</p></li>
+<li><p>/trace – Displays trace information (by default the last few HTTP requests)</p></li>
+</ul>
+<p>我们可以在官方文档中找到现有endpoints的完整列表。<a class="reference external" href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints">https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints</a></p>
+</div>
+<div class="section" id="id3">
+<h3><span class="section-number">18.3.2. </span>显示配置细节<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://localhost:8080/health">http://localhost:8080/health</a></p>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">18.3.3. </span>利用接口显示指标<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>endpoints.metrics.sensitive=false
+endpoints.metrics.enabled=true
+</pre></div>
+</td></tr></table></div>
+<p><a class="reference external" href="http://localhost:8080/metrics">http://localhost:8080/metrics</a></p>
+</div>
+<div class="section" id="id5">
+<h3><span class="section-number">18.3.4. </span>显示应用程序信息<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>info.app.name=Spring Sample Application
+info.app.description=This is my first spring boot application
+info.app.version=1.0.0
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id6">
+<h3><span class="section-number">18.3.5. </span>关闭应用程序<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id7">
+<h3><span class="section-number">18.3.6. </span>自定义Actuator<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.docedit.fsd</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.actuate.health.Health</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.actuate.health.HealthIndicator</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HealthCheck</span> <span class="kd">implements</span> <span class="n">HealthIndicator</span> <span class="p">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Health</span> <span class="nf">health</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">errorCode</span> <span class="o">=</span> <span class="n">check</span><span class="p">();</span> <span class="c1">// perform some specific health check</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">errorCode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">Health</span><span class="p">.</span><span class="na">down</span><span class="p">().</span><span class="na">withDetail</span><span class="p">(</span><span class="s">&quot;Error Code&quot;</span><span class="p">,</span> <span class="n">errorCode</span><span class="p">).</span><span class="na">build</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">Health</span><span class="p">.</span><span class="na">up</span><span class="p">().</span><span class="na">build</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">check</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Our logic to check health</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Our logic to check health&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="id8">
+<h4><span class="section-number">18.3.6.1. </span>启用或禁用某个Actuator接口<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>endpoints.beans.enabled=true</p>
+</div>
+<div class="section" id="id">
+<h4><span class="section-number">18.3.6.2. </span>更改接口ID<a class="headerlink" href="#id" title="Permalink to this headline">¶</a></h4>
+<p>endpoints.beans.id=springbeans</p>
+</div>
+<div class="section" id="id9">
+<h4><span class="section-number">18.3.6.3. </span>更改Actuator接口的灵敏度<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>endpoints.beans.sensitive=false</p>
+</div>
+<div class="section" id="id10">
+<h4><span class="section-number">18.3.6.4. </span>编写自定义健康指标<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>启用metrics</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>endpoints.metrics.sensitive=false
+endpoints.metrics.enabled=true
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>编写CounterService</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.docedit.fsd</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.actuate.health.Health</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.actuate.health.HealthIndicator</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.actuate.metrics.CounterService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HealthCheck</span> <span class="kd">implements</span> <span class="n">HealthIndicator</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">CounterService</span> <span class="n">counterService</span><span class="p">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Health</span> <span class="nf">health</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">errorCode</span> <span class="o">=</span> <span class="n">check</span><span class="p">();</span> <span class="c1">// perform some specific health check</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">errorCode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">Health</span><span class="p">.</span><span class="na">down</span><span class="p">().</span><span class="na">withDetail</span><span class="p">(</span><span class="s">&quot;Error Code&quot;</span><span class="p">,</span> <span class="n">errorCode</span><span class="p">).</span><span class="na">build</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">Health</span><span class="p">.</span><span class="na">up</span><span class="p">().</span><span class="na">build</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">check</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Our logic to check health</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Our logic to check health&quot;</span><span class="p">);</span>
+        <span class="n">counterService</span><span class="p">.</span><span class="na">increment</span><span class="p">(</span><span class="s">&quot;counter.login.success&quot;</span><span class="p">);</span> <span class="c1">// test gather custom metrics,</span>
+        <span class="n">counterService</span><span class="p">.</span><span class="na">increment</span><span class="p">(</span><span class="s">&quot;counter.login.failure&quot;</span><span class="p">);</span> <span class="c1">// test gather custom metrics</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ol class="arabic" start="3">
+<li><p>访问 <a class="reference external" href="http://localhost:8080/health">http://localhost:8080/health</a> 目的是触发counterService.increment方法。</p></li>
+<li><p>接着访问 <a class="reference external" href="http://localhost:8080/metrics">http://localhost:8080/metrics</a> ， 显示下面的指标信息:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;counter.login.failure&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;counter.login.success&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;counter.status.200.health&quot;</span><span class="p">:</span><span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="endpoint">
+<h3><span class="section-number">18.3.7. </span>创建一个自定义Endpoint<a class="headerlink" href="#endpoint" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>创建CustomEndpoint</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomEndpoint</span> <span class="kd">implements</span> <span class="n">Endpoint</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;customEndpoint&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isEnabled</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isSensitive</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">invoke</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Custom logic to build the output</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">messages</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
+        <span class="n">messages</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;This is message 1&quot;</span><span class="p">);</span>
+        <span class="n">messages</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;This is message 2&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">messages</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p>接着访问 <a class="reference external" href="http://localhost:8080/customEndpoint">http://localhost:8080/customEndpoint</a>，或者用CURL检查:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">H</span> <span class="s1">&#39;Content-Type:application/json&#39;</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">customEndpoint</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="id11">
+<h3><span class="section-number">18.3.8. </span>对Actuator接口进行安全控制<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>在1.x中。 Actuator基于Spring Security配置其自己的安全模型，但与应用程序的其余部分无关。
+默认情况下，除 /info 外的所有内置Endpoint都是私密的。 如果应用程序使用的是Spring Security，我们可以通过在application.properties文件中定义默认的安全属性（用户名，密码和角色）来保护这些endpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">security</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">admin</span>
+<span class="n">security</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">password</span><span class="o">=</span><span class="n">secret</span>
+<span class="n">management</span><span class="o">.</span><span class="n">security</span><span class="o">.</span><span class="n">role</span><span class="o">=</span><span class="n">SUPERUSER</span>
+</pre></div>
+</div>
+<p>添加security依赖：</p>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="further-customization">
+<h3><span class="section-number">18.3.9. </span>Further Customization<a class="headerlink" href="#further-customization" title="Permalink to this headline">¶</a></h3>
+<p>为了安全起见，我们可能选择通过非标准端口公开Actuator endpoints。可以使用management.port属性进行配置。</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span>#port used to expose actuator
+management.port=8081
+
+#CIDR allowed to hit actuator
+management.address=127.0.0.1
+
+#Whether security should be enabled or disabled altogether
+management.security.enabled=false
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="spring-boot-2-x-actuator">
+<h2><span class="section-number">18.4. </span>Spring Boot 2.X 中的Actuator<a class="headerlink" href="#spring-boot-2-x-actuator" title="Permalink to this headline">¶</a></h2>
+<p>在2.x中，默认情况下，现在所有Actuator endpoints都放在 /actuator 路径下，且只有两个默认是公开的 /health 和 /info，其他的默认是私密的。</p>
+<p>我们使用新的属性management.endpoints.web.base-path来调整默认的actuator路径。</p>
+<div class="section" id="id12">
+<h3><span class="section-number">18.4.1. </span>分析Actuator的接口<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>/auditevents – lists security audit-related events such as user login/logout. Also, we can filter by principal or type among others fields</p></li>
+<li><p>/beans – returns all available beans in our BeanFactory. Unlike /auditevents, it doesn’t support filtering</p></li>
+<li><p>/conditions – formerly known as /autoconfig, builds a report of conditions around auto-configuration</p></li>
+<li><p>/configprops – allows us to fetch all &#64;ConfigurationProperties beans</p></li>
+<li><p>/env – returns the current environment properties. Additionally, we can retrieve single properties</p></li>
+<li><p>/flyway – provides details about our Flyway database migrations</p></li>
+<li><p>/health – summarises the health status of our application</p></li>
+<li><p>/heapdump – builds and returns a heap dump from the JVM used by our application</p></li>
+<li><p>/info – returns general information. It might be custom data, build information or details about the latest commit</p></li>
+<li><p>/liquibase – behaves like /flyway but for Liquibase</p></li>
+<li><p>/logfile – returns ordinary application logs</p></li>
+<li><p>/loggers – enables us to query and modify the logging level of our application</p></li>
+<li><p>/metrics – details metrics of our application. This might include generic metrics as well as custom ones</p></li>
+<li><p>/prometheus – returns metrics like the previous one, but formatted to work with a Prometheus server</p></li>
+<li><p>/scheduledtasks – provides details about every scheduled task within our application</p></li>
+<li><p>/sessions – lists HTTP sessions given we are using Spring Session</p></li>
+<li><p>/shutdown – performs a graceful shutdown of the application</p></li>
+<li><p>/threaddump – dumps the thread information of the underlying JVM</p></li>
+</ul>
+<p>在Spring Boot 2.0中，内部metrics已被Micrometer支持所取代。 因此，如果我们的应用程序使用的是GaugeService或CounterService，则它们将不再可用。</p>
+<div class="section" id="id13">
+<h4><span class="section-number">18.4.1.1. </span>启用或禁用某个Endpoint<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<p>如果要启用所有这些功能，可以设置:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">management</span><span class="o">.</span><span class="n">endpoints</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">exposure</span><span class="o">.</span><span class="n">include</span><span class="o">=*</span>
+</pre></div>
+</div>
+<p>要显式启用特定endpoint（例如 /shutdown），我们使用:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">management</span><span class="o">.</span><span class="n">endpoint</span><span class="o">.</span><span class="n">shutdown</span><span class="o">.</span><span class="n">enabled</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>或者我们可以列出应启用的具体endpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">management</span><span class="o">.</span><span class="n">endpoints</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">exposure</span><span class="o">.</span><span class="n">include</span><span class="o">=</span><span class="n">beans</span><span class="p">,</span><span class="n">metrics</span>
+</pre></div>
+</div>
+<p>要公开排除一个（例如 /loggers）以外的所有启用的endpoints，我们使用:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">management</span><span class="o">.</span><span class="n">endpoints</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">exposure</span><span class="o">.</span><span class="n">include</span><span class="o">=*</span>
+<span class="n">management</span><span class="o">.</span><span class="n">endpoints</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">exposure</span><span class="o">.</span><span class="n">exclude</span><span class="o">=</span><span class="n">loggers</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h3><span class="section-number">18.4.2. </span>创建一个自定义endpoint<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.docedit.fsd</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.actuate.endpoint.annotation.Endpoint</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.actuate.endpoint.annotation.ReadOperation</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Endpoint</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;mypoint&quot;</span><span class="p">)</span>
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyPointEndPoint</span> <span class="p">{</span>
+    <span class="nd">@ReadOperation</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">mypoint</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="s">&quot;Hello&quot;</span> <span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>我们可以使用以下声明定义操作：</p>
+<ul class="simple">
+<li><p>&#64;ReadOperation – 对应 HTTP GET</p></li>
+<li><p>&#64;WriteOperation – 对应 HTTP POST</p></li>
+<li><p>&#64;DeleteOperation – 对应 HTTP DELETE</p></li>
+</ul>
+</div>
+<div class="section" id="git">
+<h3><span class="section-number">18.4.3. </span>显示git详细信息<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>添加git plugin。</p></li>
+</ol>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;plugin&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>pl.project13.maven<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>git-commit-id-plugin<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;configuration&gt;</span>
+        <span class="nt">&lt;dotGitDirectory&gt;</span>${project.basedir}/.git<span class="nt">&lt;/dotGitDirectory&gt;</span>
+    <span class="nt">&lt;/configuration&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic" start="2">
+<li><p>执行mvn clean package命令后，将会生成文件：target/classes/git.properties</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>macbook-pro:fsd2.x murphy$ cat target/classes/git.properties
+#Generated by Git-Commit-Id-Plugin
+#Fri Oct 11 15:17:12 CST 2019
+git.branch=master
+git.build.host=macbook-pro.cn.ibm.com
+git.build.time=2019-10-11T15\:17\:12+0800
+git.build.user.email=lanzejun@cn.ibm.com
+git.build.user.name=lanzejun
+git.build.version=0.0.1-SNAPSHOT
+git.closest.tag.commit.count=
+git.closest.tag.name=
+git.commit.id=60201666e9ec6088da5072c1b19c27f686cc9a2c
+git.commit.id.abbrev=6020166
+git.commit.id.describe=6020166-dirty
+git.commit.id.describe-short=6020166-dirty
+git.commit.message.full=update
+git.commit.message.short=update
+git.commit.time=2019-10-09T17\:02\:28+0800
+git.commit.user.email=lanzejun@cn.ibm.com
+git.commit.user.name=lanzejun
+git.dirty=true
+git.remote.origin.url=git@github.ibm.com\:lanzejun/fullstack.git
+git.tags=
+git.total.commit.count=70
+</pre></div>
+</div>
+</li>
+<li><p>查看info： <a class="reference external" href="http://localhost:8080/actuator/info">http://localhost:8080/actuator/info</a>，默认情况下，显示的节点信息仅有3个。</p></li>
+</ol>
+<div class="section" id="id15">
+<h4><span class="section-number">18.4.3.1. </span>指定git地址<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;configuration&gt;</span>
+    <span class="nt">&lt;dotGitDirectory&gt;</span>${project.basedir}/.git<span class="nt">&lt;/dotGitDirectory&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>其中${project.basedir}指的是当前项目的根目录。</p>
+</div>
+<div class="section" id="id16">
+<h4><span class="section-number">18.4.3.2. </span>显示全部信息<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p>在application.properties文件中，添加:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">management</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">mode</span><span class="o">=</span><span class="n">full</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="git-properties">
+<h4><span class="section-number">18.4.3.3. </span>关闭git.properties文件的创建<a class="headerlink" href="#git-properties" title="Permalink to this headline">¶</a></h4>
+<p>在configuration中添加:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">generateGitPropertiesFile</span><span class="o">&gt;</span><span class="n">false</span><span class="o">&lt;/</span><span class="n">generateGitPropertiesFile</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="verbosity">
+<h4><span class="section-number">18.4.3.4. </span>Verbosity<a class="headerlink" href="#verbosity" title="Permalink to this headline">¶</a></h4>
+<p>显示细粒度的日志信息，在configuration中添加:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">verbose</span><span class="o">&gt;</span><span class="n">true</span><span class="o">&lt;/</span><span class="n">verbose</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id17">
+<h4><span class="section-number">18.4.3.5. </span>过滤敏感信息<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<p>在configuration中添加:</p>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;excludeProperties&gt;</span>
+    <span class="nt">&lt;excludeProperty&gt;</span>git.user.*<span class="nt">&lt;/excludeProperty&gt;</span>
+<span class="nt">&lt;/excludeProperties&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="id18">
+<h3><span class="section-number">18.4.4. </span>对Actuator接口进行安全控制<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>Actuator与常规Spring Security规则共享安全配置。因此，要调整Actuator安全性规则，我们可以为路径添加一个例外，如：/actuator/** :</p>
+<p>添加security依赖：</p>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">SecurityWebFilterChain</span> <span class="nf">securityWebFilterChain</span><span class="p">(</span>
+<span class="n">ServerHttpSecurity</span> <span class="n">http</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">http</span><span class="p">.</span><span class="na">authorizeExchange</span><span class="p">()</span>
+    <span class="p">.</span><span class="na">pathMatchers</span><span class="p">(</span><span class="s">&quot;/actuator/**&quot;</span><span class="p">).</span><span class="na">permitAll</span><span class="p">()</span>
+    <span class="p">.</span><span class="na">anyExchange</span><span class="p">().</span><span class="na">authenticated</span><span class="p">()</span>
+    <span class="p">.</span><span class="na">and</span><span class="p">().</span><span class="na">build</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="spring-boot-admin">
+<h2><span class="section-number">18.5. </span>spring-boot-admin<a class="headerlink" href="#spring-boot-admin" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.baeldung.com/spring-boot-admin">https://www.baeldung.com/spring-boot-admin</a></p>
+</div>
+<div class="section" id="id19">
+<h2><span class="section-number">18.6. </span>参考<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.spring.io/spring-boot/docs/2.2.0.BUILD-SNAPSHOT/reference/html/production-ready-features.html#production-ready-endpoints">https://docs.spring.io/spring-boot/docs/2.2.0.BUILD-SNAPSHOT/reference/html/production-ready-features.html#production-ready-endpoints</a></p></li>
+<li><p><a class="reference external" href="https://docs.spring.io/spring-boot/docs/2.0.x/actuator-api/html/">https://docs.spring.io/spring-boot/docs/2.0.x/actuator-api/html/</a></p></li>
+<li><p><a class="reference external" href="https://www.baeldung.com/spring-boot-security-autoconfiguration">https://www.baeldung.com/spring-boot-security-autoconfiguration</a></p></li>
+</ul>
+</div>
+<div class="section" id="id20">
+<h2><span class="section-number">18.7. </span>小结<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="restful.html" class="btn btn-neutral float-right" title="19. Spring Boot RESTful" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="security.html" class="btn btn-neutral float-left" title="17. Spring Boot Security" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

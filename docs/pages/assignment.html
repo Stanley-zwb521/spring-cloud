@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>29. Assignment</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="30. Sphinx" href="sphinx.html" />
+    <link rel="prev" title="28. Kubernetes学习" href="kubernetes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">29. Assignment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#maven">29.1. Maven</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">29.1.1. 练习的目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">29.1.2. 练习的要求</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#crud">29.2. CRUD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">29.2.1. 练习的目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">29.2.2. 练习的要求</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">29. </span>Assignment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="assignment">
+<h1><span class="section-number">29. </span>Assignment<a class="headerlink" href="#assignment" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="maven">
+<h2><span class="section-number">29.1. </span>Maven<a class="headerlink" href="#maven" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3><span class="section-number">29.1.1. </span>练习的目标<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>掌握在线构建 spring boot 项目</p></li>
+<li><p>掌握 maven 环境，仓库知识</p></li>
+<li><p>掌握 maven 依赖关系</p></li>
+<li><p>掌握 maven 执行周期</p></li>
+<li><p>掌握 git 使用方法</p></li>
+<li><p>掌握 spring boot 项目的基本功能</p></li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h3><span class="section-number">29.1.2. </span>练习的要求<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><dl>
+<dt>Create a parent project with 3 submodules.</dt><dd><p>This app will consist of three modules, that will represent:</p>
+<ol class="arabic simple">
+<li><p>The core part of our domain</p></li>
+<li><p>A web service providing some information from accessing RTC(IBM Rational Team Concert)</p></li>
+<li><p>A webapp containing user-facing web assets of some sort</p></li>
+</ol>
+<p>Parent’s pom.xml file:</p>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;modules&gt;</span>
+        <span class="nt">&lt;module&gt;</span>core<span class="nt">&lt;/module&gt;</span>
+        <span class="nt">&lt;module&gt;</span>service<span class="nt">&lt;/module&gt;</span>
+        <span class="nt">&lt;module&gt;</span>webapp<span class="nt">&lt;/module&gt;</span>
+<span class="nt">&lt;/modules&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Building the Project:</dt><dd><ol class="arabic simple">
+<li><p>At least 1 unit test in each module.</p></li>
+<li><p>Run “mvn package” successful.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Deploy the Project:</dt><dd><p>There is an area for displaying RTC information in webapp.</p>
+</dd>
+</dl>
+</li>
+<li><p>Commit your assignment into github with .gitignore.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>注意2点 1. 子moudle里面不能有package plugin; 2. web里面的application的包路径需要在所有子module的包的父级</p>
+</div>
+</div>
+</div>
+<div class="section" id="crud">
+<h2><span class="section-number">29.2. </span>CRUD<a class="headerlink" href="#crud" title="Permalink to this headline">¶</a></h2>
+<p>CRUD(Create Read Update Delete)</p>
+<div class="section" id="id3">
+<h3><span class="section-number">29.2.1. </span>练习的目标<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>掌握Spring Boot 项目基本的CRUD操作</p>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">29.2.2. </span>练习的要求<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>搭建Spring Boot项目开发环境，添加依赖（Web Thymeleaf JPA H2）</p></li>
+<li><p>实现进度表记录的展示、添加、修改和删除</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>修改默认端口</p></li>
+<li><p>使用&#64;Value标签，页面显示项目名称</p></li>
+<li><p>创建Entity（进度表），持久化到H2数据库，项目启动时，初始化数据</p></li>
+<li><p>自定义错误页面</p></li>
+<li><p>界面使用Bootstrap(可选)</p></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p>Commit your assignment into github with .gitignore.</p></li>
+<li><p>部署到阿里云(可选任何私有云)</p></li>
+</ol>
+<p>参考：
+<a class="reference external" href="https://www.baeldung.com/spring-boot-start">https://www.baeldung.com/spring-boot-start</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sphinx.html" class="btn btn-neutral float-right" title="30. Sphinx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="kubernetes.html" class="btn btn-neutral float-left" title="28. Kubernetes学习" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

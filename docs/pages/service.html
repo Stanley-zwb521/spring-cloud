@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8. Spring Boot Service</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. Spring Boot Pages" href="pages.html" />
+    <link rel="prev" title="7. Spring Boot Controller" href="controller.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Spring Boot Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#service">8.1. 理解 Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#autowired">8.2. &#64;Autowired</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">8.3. 类中获取属性数据</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configurationproperties">8.3.1. &#64;ConfigurationProperties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#value">8.3.2. &#64;Value</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#error-handling-for-rest">8.4. Error Handling for REST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spring-boot">8.5. Spring boot自定义注解</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">8.5.1. 使用自定义注解来统计方法的执行时间</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#analysisactuator">8.5.1.1. 创建&#64;AnalysisActuator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aspect">8.5.1.2. 创建Aspect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">8.5.1.3. 使用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">8. </span>Spring Boot Service</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-boot-service">
+<h1><span class="section-number">8. </span>Spring Boot Service<a class="headerlink" href="#spring-boot-service" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="service">
+<h2><span class="section-number">8.1. </span>理解 Service<a class="headerlink" href="#service" title="Permalink to this headline">¶</a></h2>
+<p>Service Components are the class file which contains &#64;Service annotation. These class files are used to write business logic in a different layer.</p>
+</div>
+<div class="section" id="autowired">
+<h2><span class="section-number">8.2. </span>&#64;Autowired<a class="headerlink" href="#autowired" title="Permalink to this headline">¶</a></h2>
+<p>Inject list of all beans with a certain interface</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeComponent</span> <span class="p">{</span>
+
+    <span class="kd">interface</span> <span class="nc">SomeInterface</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="nd">@Component</span>
+    <span class="kd">class</span> <span class="nc">Impl1</span> <span class="kd">implements</span> <span class="n">SomeInterface</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="nd">@Component</span>
+    <span class="kd">class</span> <span class="nc">Impl2</span> <span class="kd">implements</span> <span class="n">SomeInterface</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">SomeInterface</span><span class="o">&gt;</span> <span class="n">listOfImpls</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id1">
+<h2><span class="section-number">8.3. </span>类中获取属性数据<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configurationproperties">
+<h3><span class="section-number">8.3.1. </span>&#64;ConfigurationProperties<a class="headerlink" href="#configurationproperties" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@PropertySource</span><span class="p">(</span><span class="s">&quot;classpath:dbconfig.properties&quot;</span><span class="p">)</span>
+<span class="nd">@ConfigurationProperties</span><span class="p">(</span><span class="s">&quot;database&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DatabaseConfiguration</span> <span class="p">{</span>
+
+    <span class="nd">@Length</span><span class="p">(</span><span class="n">min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="p">;</span>
+
+    <span class="nd">@NotEmpty</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">url</span><span class="p">;</span>
+
+    <span class="nd">@Length</span><span class="p">(</span><span class="n">min</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nd">@Pattern</span><span class="p">(</span><span class="n">regexp</span> <span class="o">=</span> <span class="s">&quot;[a-z-A-Z]*&quot;</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Username can not contain invalid characters&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="p">;</span>
+
+    <span class="nd">@Length</span><span class="p">(</span><span class="n">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">max</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">password</span><span class="p">;</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>&#64;PropertySource 标签是指定属性文件，默认是application.yml 或 application.properties</p></li>
+<li><p>&#64;ConfigurationProperties 标签指定属性文件中的属性前缀</p></li>
+</ul>
+</div>
+<div class="section" id="value">
+<h3><span class="section-number">8.3.2. </span>&#64;Value<a class="headerlink" href="#value" title="Permalink to this headline">¶</a></h3>
+<p>This annotation can be used for injecting values into fields in Spring-managed beans and it can be applied at the field or constructor/method parameter level.</p>
+<p><a class="reference external" href="https://www.baeldung.com/spring-value-annotation">https://www.baeldung.com/spring-value-annotation</a></p>
+</div>
+</div>
+<div class="section" id="error-handling-for-rest">
+<h2><span class="section-number">8.4. </span>Error Handling for REST<a class="headerlink" href="#error-handling-for-rest" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@ResponseStatus</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">reason</span> <span class="o">=</span> <span class="s2">&quot;Actor Not Found&quot;</span><span class="p">)</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">ActorNotFoundException</span> <span class="n">extends</span> <span class="ne">Exception</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="nd">@GetMapping</span><span class="p">(</span><span class="s2">&quot;/actor/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">public</span> <span class="n">String</span> <span class="n">getActorName</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="nb">int</span> <span class="nb">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">actorService</span><span class="o">.</span><span class="n">getActor</span><span class="p">(</span><span class="nb">id</span><span class="p">);</span>
+    <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">ActorNotFoundException</span> <span class="n">ex</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">throw</span> <span class="n">new</span> <span class="n">ResponseStatusException</span><span class="p">(</span>
+          <span class="n">HttpStatus</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="s2">&quot;Actor Not Found&quot;</span><span class="p">,</span> <span class="n">ex</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.baeldung.com/exception-handling-for-rest-with-spring">https://www.baeldung.com/exception-handling-for-rest-with-spring</a></p></li>
+<li><p><a class="reference external" href="https://www.baeldung.com/spring-response-status-exception">https://www.baeldung.com/spring-response-status-exception</a></p></li>
+<li><p><a class="reference external" href="https://www.mkyong.com/spring-boot/spring-rest-error-handling-example/">https://www.mkyong.com/spring-boot/spring-rest-error-handling-example/</a></p></li>
+</ul>
+</div>
+<div class="section" id="spring-boot">
+<h2><span class="section-number">8.5. </span>Spring boot自定义注解<a class="headerlink" href="#spring-boot" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sql notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">&lt;!</span><span class="c1">-- AOP依赖模块 --&gt;</span>
+<span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="p">.</span><span class="n">springframework</span><span class="p">.</span><span class="n">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">aop</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="id2">
+<h3><span class="section-number">8.5.1. </span>使用自定义注解来统计方法的执行时间<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="analysisactuator">
+<h4><span class="section-number">8.5.1.1. </span>创建&#64;AnalysisActuator<a class="headerlink" href="#analysisactuator" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.demo.aop</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.lang.annotation.ElementType</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.lang.annotation.Retention</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.lang.annotation.RetentionPolicy</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.lang.annotation.Target</span><span class="p">;</span>
+
+<span class="nd">@Target</span><span class="p">(</span><span class="n">ElementType</span><span class="p">.</span><span class="na">METHOD</span><span class="p">)</span>
+<span class="nd">@Retention</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">.</span><span class="na">RUNTIME</span><span class="p">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">AnalysisActuator</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="nf">note</span><span class="p">()</span> <span class="k">default</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="aspect">
+<h4><span class="section-number">8.5.1.2. </span>创建Aspect<a class="headerlink" href="#aspect" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.demo.aop</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.JoinPoint</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.annotation.After</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.annotation.Aspect</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.annotation.Before</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.annotation.Pointcut</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.core.annotation.Order</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Aspect</span>
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AnalysisActuatorAspect</span> <span class="p">{</span>
+    <span class="kd">final</span> <span class="kd">static</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="p">.</span><span class="na">getLogger</span><span class="p">(</span><span class="n">AnalysisActuatorAspect</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+    <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">beginTime</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+    <span class="nd">@Pointcut</span><span class="p">(</span><span class="s">&quot;@annotation(analysisActuator)&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">serviceStatistics</span><span class="p">(</span><span class="n">AnalysisActuator</span> <span class="n">analysisActuator</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Before</span><span class="p">(</span><span class="s">&quot;serviceStatistics(analysisActuator)&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doBefore</span><span class="p">(</span><span class="n">JoinPoint</span> <span class="n">joinPoint</span><span class="p">,</span> <span class="n">AnalysisActuator</span> <span class="n">analysisActuator</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 记录请求到达时间</span>
+        <span class="n">beginTime</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">());</span>
+        <span class="n">log</span><span class="p">.</span><span class="na">info</span><span class="p">(</span><span class="s">&quot;------ note:{}&quot;</span><span class="p">,</span> <span class="n">analysisActuator</span><span class="p">.</span><span class="na">note</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="nd">@After</span><span class="p">(</span><span class="s">&quot;serviceStatistics(analysisActuator)&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doAfter</span><span class="p">(</span><span class="n">AnalysisActuator</span> <span class="n">analysisActuator</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">log</span><span class="p">.</span><span class="na">info</span><span class="p">(</span><span class="s">&quot;------ statistic time:{}, note:{}&quot;</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">()</span> <span class="o">-</span> <span class="n">beginTime</span><span class="p">.</span><span class="na">get</span><span class="p">(),</span>
+                <span class="n">analysisActuator</span><span class="p">.</span><span class="na">note</span><span class="p">());</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id3">
+<h4><span class="section-number">8.5.1.3. </span>使用<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.demo.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.example.demo.aop.AnalysisActuator</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldController</span> <span class="p">{</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
+    <span class="nd">@AnalysisActuator</span><span class="p">(</span><span class="n">note</span> <span class="o">=</span> <span class="s">&quot;HelloWorldController中的hello方法&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="p">(</span><span class="n">String</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Hello &quot;</span> <span class="o">+</span> <span class="n">Optional</span><span class="p">.</span><span class="na">ofNullable</span><span class="p">(</span><span class="n">name</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="s">&quot;World!&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>调用地址：<a class="reference external" href="http://localhost:8080/?name=Java">http://localhost:8080/?name=Java</a> 屏幕打印：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2019</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">22</span> <span class="mi">15</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span><span class="mf">18.512</span>  <span class="n">INFO</span> <span class="mi">22521</span> <span class="o">---</span> <span class="p">[</span><span class="n">nio</span><span class="o">-</span><span class="mi">8080</span><span class="o">-</span><span class="n">exec</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">c</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">demo</span><span class="o">.</span><span class="n">aop</span><span class="o">.</span><span class="n">AnalysisActuatorAspect</span>
+      <span class="p">:</span> <span class="o">------</span> <span class="n">note</span><span class="p">:</span><span class="n">HelloWorldController中的hello方法</span>
+<span class="mi">2019</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">22</span> <span class="mi">15</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span><span class="mf">18.550</span>  <span class="n">INFO</span> <span class="mi">22521</span> <span class="o">---</span> <span class="p">[</span><span class="n">nio</span><span class="o">-</span><span class="mi">8080</span><span class="o">-</span><span class="n">exec</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">c</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">demo</span><span class="o">.</span><span class="n">aop</span><span class="o">.</span><span class="n">AnalysisActuatorAspect</span>
+      <span class="p">:</span> <span class="o">------</span> <span class="n">statistic</span> <span class="n">time</span><span class="p">:</span><span class="mi">38</span><span class="p">,</span> <span class="n">note</span><span class="p">:</span><span class="n">HelloWorldController中的hello方法</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pages.html" class="btn btn-neutral float-right" title="9. Spring Boot Pages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="controller.html" class="btn btn-neutral float-left" title="7. Spring Boot Controller" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

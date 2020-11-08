@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6. Spring Boot 2.x 学习</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Spring Boot Controller" href="controller.html" />
+    <link rel="prev" title="5. Spring Boot CLI" href="cli.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Spring Boot 2.x 学习</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spring-boot">6.1. Spring Boot 概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">6.2. 常规概念</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#po">6.2.1. PO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bo">6.2.2. BO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vo">6.2.3. VO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pojo">6.2.4. POJO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dto">6.2.5. DTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dao">6.2.6. DAO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">6.3. 快速上手</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">6.3.1. 在线界面初始化项目</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">6.3.2. 环境准备</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pom-xml">6.3.3. pom.xml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">6.3.4. 添加Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">6.3.5. 运行程序</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ide">6.3.5.1. IDE中执行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mvn">6.3.5.2. mvn执行</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#an-executable-jar">6.3.6. 创建 an Executable Jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">6.3.7. 部署</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#banner">6.4. banner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">6.5. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">6. </span>Spring Boot 2.x 学习</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-boot-2-x">
+<h1><span class="section-number">6. </span>Spring Boot 2.x 学习<a class="headerlink" href="#spring-boot-2-x" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spring-boot">
+<h2><span class="section-number">6.1. </span>Spring Boot 概述<a class="headerlink" href="#spring-boot" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>创建独立的Spring应用程序</p></li>
+<li><p>直接嵌入Tomcat，Jetty或Undertow（无需部署WAR文件）</p></li>
+<li><p>提供集成的“starter”依赖项，以简化构建配置</p></li>
+<li><p>尽可能自动配置Spring和3rd Party库</p></li>
+<li><p>提供生产就绪的功能，例如指标，运行状况检查和外部配置</p></li>
+<li><p>完全没有代码生成，也不需要XML配置（最低配置或零配置）</p></li>
+<li><p>约定大于配置</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2><span class="section-number">6.2. </span>常规概念<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Endpoints</p></li>
+<li><p>Adapter</p></li>
+<li><p>RestFul API</p></li>
+<li><p>Controller + Service + Repository + Entity（3种状态）</p></li>
+<li><p>Configuration</p></li>
+<li><p>Spring Core, Spring IOC, Spring Boot, Spring Data JPA, Spring AOP, Spring Security, Spring Transaction, Spring JDBC, Spring MVC, Spring Integration and Hibernate ORM.</p></li>
+</ul>
+<div class="section" id="po">
+<h3><span class="section-number">6.2.1. </span>PO<a class="headerlink" href="#po" title="Permalink to this headline">¶</a></h3>
+<p>persistant object持久对象</p>
+<p>最形象的理解就是一个PO就是数据库中的一条记录。
+好处是可以把一条记录作为一个对象处理，可以方便的转为其它对象。</p>
+</div>
+<div class="section" id="bo">
+<h3><span class="section-number">6.2.2. </span>BO<a class="headerlink" href="#bo" title="Permalink to this headline">¶</a></h3>
+<p>business object业务对象</p>
+<p>主要作用是把业务逻辑封装为一个对象。这个对象可以包括一个或多个其它的对象。
+比如一个简历，有教育经历、工作经历、社会关系等等。
+我们可以把教育经历对应一个PO，工作经历对应一个PO，社会关系对应一个PO。</p>
+<p>建立一个对应简历的BO对象处理简历，每个BO包含这些PO。
+这样处理业务逻辑时，我们就可以针对BO去处理。</p>
+</div>
+<div class="section" id="vo">
+<h3><span class="section-number">6.2.3. </span>VO<a class="headerlink" href="#vo" title="Permalink to this headline">¶</a></h3>
+<p>value object值对象
+ViewObject表现层对象</p>
+<p>主要对应界面显示的数据对象。对于一个WEB页面，或者SWT、SWING的一个界面，用一个VO对象对应整个界面的值。</p>
+</div>
+<div class="section" id="pojo">
+<h3><span class="section-number">6.2.4. </span>POJO<a class="headerlink" href="#pojo" title="Permalink to this headline">¶</a></h3>
+<p>plain ordinary java object 简单java对象
+个人感觉POJO是最常见最多变的对象，是一个中间对象，也是我们最常打交道的对象。</p>
+<ul class="simple">
+<li><p>一个POJO持久化以后就是PO</p></li>
+<li><p>直接用它传递、传递过程中就是DTO</p></li>
+<li><p>直接用来对应表示层就是VO</p></li>
+</ul>
+</div>
+<div class="section" id="dto">
+<h3><span class="section-number">6.2.5. </span>DTO<a class="headerlink" href="#dto" title="Permalink to this headline">¶</a></h3>
+<p>Data Transfer Object数据传输对象
+主要用于远程调用等需要大量传输对象的地方。
+比如我们一张表有100个字段，那么对应的PO就有100个属性。
+但是我们界面上只要显示10个字段，
+客户端用WEB service来获取数据，没有必要把整个PO对象传递到客户端，
+这时我们就可以用只有这10个属性的DTO来传递结果到客户端，这样也不会暴露服务端表结构.到达客户端以后，如果用这个对象来对应界面显示，那此时它的身份就转为VO</p>
+</div>
+<div class="section" id="dao">
+<h3><span class="section-number">6.2.6. </span>DAO<a class="headerlink" href="#dao" title="Permalink to this headline">¶</a></h3>
+<p>data access object数据访问对象
+这个大家最熟悉，和上面几个O区别最大，基本没有互相转化的可能性和必要.
+主要用来封装对数据库的访问。通过它可以把POJO持久化为PO，用PO组装出来VO、DTO</p>
+<p><strong>为什么不能直接用实体模型实现层与层传递？</strong></p>
+<p>DTO（Data Tansfer Object）即数据传输对象。不明白有些框架中为什么要专门定义DTO来绑定表现层中的数据，为什么不能直接用实体模型实现层与层之间的数据传输，有了DTO同时还要维护DTO与Model之间的映射关系与转换？</p>
+<p>表现层与应用层之间是通过数据传输对象（DTO）进行交互的，数据传输对象是没有行为的POJO对象，它 的目的只是为了对领域对象进行数据封装，实现层与层之间的数据传递。为何不能直接将领域对象用于 数据传递？因为领域对象更注重领域，而DTO更注重数据。不仅如此，由于“富领域模型”的特点，这样做会直接将领域对象的行为暴露给表现层。</p>
+<p>需要了解的是，数据传输对象DTO本身并不是业务对象。数据传输对象是根据UI的需求进行设计的，而不 是根据领域对象进行设计的。比如，Customer领域对象可能会包含一些诸如FirstName, LastName, Email, Address等信息。但如果UI上不打算显示Address的信息，那么CustomerDTO中也无需包含这个Address的数据。</p>
+<p>简单来说Model面向业务，我们是通过业务来定义Model的。而DTO是面向界面UI，是通过UI的需求来定义的。通过DTO我们实现了表现层与Model之间的解耦，表现层不引用Model，如果开发过程中我们的模型改变了，而界面没变，我们就只需要改Model而不需要去改表现层中的东西。</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">6.3. </span>快速上手<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">6.3.1. </span>在线界面初始化项目<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://start.spring.io/">https://start.spring.io/</a></p>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">6.3.2. </span>环境准备<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>ensure that you have valid versions of Java and Maven installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -version
+java version &quot;1.8.0_102&quot;
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+
+$ mvn -v
+Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-17T14:33:14-04:00)
+Maven home: /usr/local/Cellar/maven/3.3.9/libexec
+Java version: 1.8.0_102, vendor: Oracle Corporation
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="pom-xml">
+<h3><span class="section-number">6.3.3. </span>pom.xml<a class="headerlink" href="#pom-xml" title="Permalink to this headline">¶</a></h3>
+<p>Spring Boot provides a number of “Starters” that let you add jars to your classpath. The spring-boot-starter-parent is a special starter that provides useful Maven defaults. It also provides a dependency-management section so that you can omit version tags for “blessed” dependencies.</p>
+<p>Other “Starters” provide dependencies that you are likely to need when developing a specific type of application. Since we are developing a web application, we add a spring-boot-starter-web dependency. Before that, we can look at what we currently have by running the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn</span> <span class="n">dependency</span><span class="p">:</span><span class="n">tree</span>
+</pre></div>
+</div>
+<p>The mvn dependency:tree command prints a tree representation of your project dependencies.</p>
+</div>
+<div class="section" id="code">
+<h3><span class="section-number">6.3.4. </span>添加Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h3>
+<p>打开 Application.java 类，添加一个方法和一个annotation（代码高亮部分）:</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.demo</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="hll"><span class="nd">@RestController</span>
+</span><span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoApplication</span> <span class="p">{</span>
+
+<span class="hll">    <span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">String</span> <span class="nf">home</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="hll">        <span class="k">return</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">;</span>
+</span><span class="hll">    <span class="p">}</span>
+</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">DemoApplication</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple">
+<li><p>&#64;RestController This annotation provides handling incoming web requests and return JSON response.</p></li>
+<li><p>&#64;RequestMapping This annotation provides “routing” information.</p></li>
+<li><p>main方法 这只是遵循Java约定的应用程序入口点的标准方法。 我们的main方法通过调用run委托给Spring Boot的SpringApplication类。 SpringApplication会引导我们的应用程序，并启动Spring，后者反过来又会启动自动配置的Tomcat Web服务器。</p></li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3><span class="section-number">6.3.5. </span>运行程序<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>介绍2种方式运行程序。</p>
+<div class="section" id="ide">
+<h4><span class="section-number">6.3.5.1. </span>IDE中执行<a class="headerlink" href="#ide" title="Permalink to this headline">¶</a></h4>
+<p>导入到Eclipse中，然后直接运行DemoApplication类中的main方法。</p>
+</div>
+<div class="section" id="mvn">
+<h4><span class="section-number">6.3.5.2. </span>mvn执行<a class="headerlink" href="#mvn" title="Permalink to this headline">¶</a></h4>
+<p>在POM文件种，程序依赖了spring-boot-starter-parent, you have a useful run goal that you can use to start the application:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn</span> <span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="p">:</span><span class="n">run</span>
+</pre></div>
+</div>
+<p>打开浏览器，访问 <a class="reference external" href="http://localhost:8080">http://localhost:8080</a>, you should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Hello World!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="an-executable-jar">
+<h3><span class="section-number">6.3.6. </span>创建 an Executable Jar<a class="headerlink" href="#an-executable-jar" title="Permalink to this headline">¶</a></h3>
+<p>通过创建可以在生产环境中运行的完全独立的可执行jar文件来结束示例。 可执行jar（有时称为“fat jar”）是包含已编译类以及代码需要运行的所有jar依赖项的归档文件。</p>
+<p>运行命令:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn</span> <span class="n">package</span>
+</pre></div>
+</div>
+<p>If you look in the target directory, you should see demo-0.0.1-SNAPSHOT.jar. The file should be around 10 MB in size. If you want to peek inside, you can use jar tvf, as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jar</span> <span class="n">tvf</span> <span class="n">target</span><span class="o">/</span><span class="n">demo</span><span class="o">-</span><span class="mf">0.0</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">SNAPSHOT</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p>You should also see a much smaller file named demo-0.0.1-SNAPSHOT.jar.original in the target directory. This is the original jar file that Maven created before it was repackaged by Spring Boot.</p>
+<p>To run that application, use the java -jar command, as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">target</span><span class="o">/</span><span class="n">demo</span><span class="o">-</span><span class="mf">0.0</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">SNAPSHOT</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p>As before, to exit the application, press <span class="guilabel"><span class="accelerator">C</span>trl</span> + <span class="guilabel"><span class="accelerator">c</span></span> 。</p>
+</div>
+<div class="section" id="id6">
+<h3><span class="section-number">6.3.7. </span>部署<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>上述命令，一旦关闭命令框，程序将会终止，这时可以使用如下命令:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nohup</span> <span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">your_app</span><span class="o">.</span><span class="n">jar</span> <span class="o">--</span><span class="n">server</span><span class="o">.</span><span class="n">port</span><span class="o">=</span><span class="mi">8888</span> <span class="o">&amp;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="banner">
+<h2><span class="section-number">6.4. </span>banner<a class="headerlink" href="#banner" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                  _oo0oo_
+                 o8888888o
+                 88&quot; . &quot;88
+                 (| -_- |)
+                 0\  =  /0
+               ___/`---&#39;\___
+             .&#39; \\|     |// &#39;.
+            / \\|||  :  |||// \
+           / _||||| -:- |||||_ \
+          |   | \\\  -  /// |   |
+          | \_|  &#39;&#39;\---/&#39;&#39;  |_/ |
+          \  .-\__  &#39;-&#39;  __/-.  /
+        ___&#39;. .&#39;  /--.--\  &#39;. .&#39;___
+     .&quot;&quot; &#39;&lt;  `.___\_&lt;|&gt;_/___.&#39;  &gt;&#39; &quot;&quot;.
+    | | :  `- \`.;`\ _ /`;.`/ -`  : | |
+    \  \ `_.   \_ __\ /__ _/   ._` /  /
+=====`-.____`.___ \_____/ ___.`____.-`=====
+                  `=---=`
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>        _.._        .--------------------.
+     /       `.    ( what are you! )
+    /  __) __  \    .--------------------.
+   (  (`-`(-)   ) _.-
+   /)  \  = /  (
+  /     |--  .  \
+ (  ,---|  `-.)__`
+  )(  `-.,--    _`-.
+  /,           (  Uu&quot;,
+  (_       ,    `/,-  )
+  `.__,  : `- /  /`--
+    |      --   |
+    \   `-._   /
+     \        (
+     /\ .      \.  docedit.cn
+    / |` \     ,-\
+   /  \| .)   /   \
+  ( , |\    ,      :
+  | \,`.`--&quot;/      }
+  `,     \  |,     /
+ / &quot;-._   `-/      |
+ &quot;-.   &quot;-., |      ;
+ /       _/[&quot;--- &quot;&quot;]
+:       /  |&quot;-     |
+:          |      /
+           `     |
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2><span class="section-number">6.5. </span>参考<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started-first-application">https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started-first-application</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="controller.html" class="btn btn-neutral float-right" title="7. Spring Boot Controller" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cli.html" class="btn btn-neutral float-left" title="5. Spring Boot CLI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9. Spring Boot Pages</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="10. Spring Boot Entity" href="entity.html" />
+    <link rel="prev" title="8. Spring Boot Service" href="service.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">9. Spring Boot Pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pages">9.1. 理解 Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">9.2. 模板引擎</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jsp">9.2.1. Jsp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#freemarker">9.2.2. FreeMarker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#groovy">9.2.3. Groovy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thymeleaf">9.2.4. Thymeleaf</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">9.3. 页面获取数据</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model">9.3.1. Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modelmap">9.3.2. ModelMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modelandview">9.3.3. ModelAndView</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modelattribute">9.3.4. &#64;ModelAttribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#webjars">9.4. webjars</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">9. </span>Spring Boot Pages</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-boot-pages">
+<h1><span class="section-number">9. </span>Spring Boot Pages<a class="headerlink" href="#spring-boot-pages" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pages">
+<h2><span class="section-number">9.1. </span>理解 Pages<a class="headerlink" href="#pages" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id1">
+<h2><span class="section-number">9.2. </span>模板引擎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="jsp">
+<h3><span class="section-number">9.2.1. </span>Jsp<a class="headerlink" href="#jsp" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://www.baeldung.com/spring-template-engines">https://www.baeldung.com/spring-template-engines</a></p>
+<div class="highlight-ActionScript notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nx">spring</span><span class="p">.</span><span class="nx">mvc</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">prefix</span><span class="o">:</span> <span class="sr">/WEB-INF/</span><span class="nx">views</span><span class="o">/</span>
+<span class="nx">spring</span><span class="p">.</span><span class="nx">mvc</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">suffix</span><span class="o">:</span> <span class="p">.</span><span class="nx">jsp</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="freemarker">
+<h3><span class="section-number">9.2.2. </span>FreeMarker<a class="headerlink" href="#freemarker" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://freemarker.apache.org/">https://freemarker.apache.org/</a>
+<a class="reference external" href="https://hellokoding.com/spring-boot-hello-world-example-with-freemarker/">https://hellokoding.com/spring-boot-hello-world-example-with-freemarker/</a></p>
+</div>
+<div class="section" id="groovy">
+<h3><span class="section-number">9.2.3. </span>Groovy<a class="headerlink" href="#groovy" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://www.baeldung.com/spring-template-engines">https://www.baeldung.com/spring-template-engines</a></p>
+</div>
+<div class="section" id="thymeleaf">
+<h3><span class="section-number">9.2.4. </span>Thymeleaf<a class="headerlink" href="#thymeleaf" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://www.thymeleaf.org/">https://www.thymeleaf.org/</a>
+<a class="reference external" href="https://www.baeldung.com/spring-boot-crud-thymeleaf">https://www.baeldung.com/spring-boot-crud-thymeleaf</a></p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">9.3. </span>页面获取数据<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Model, ModelMap, and ModelAndView are used to define a model in a Spring MVC application.</p>
+<ul class="simple">
+<li><p>Model defines a holder for model attributes and is primarily designed for adding attributes to the model.</p></li>
+<li><p>ModelMap is an extension of Model with the ability to store attributes in a map and chain method calls.</p></li>
+<li><p>ModelAndView is a holder for a model and a view; it allows to return both model and view in one return value.</p></li>
+</ul>
+<div class="section" id="model">
+<h3><span class="section-number">9.3.1. </span>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="nf">homePage</span><span class="p">(</span><span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;appName&quot;</span><span class="p">,</span> <span class="n">appName</span><span class="p">);</span>
+    <span class="k">return</span> <span class="s">&quot;home&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>页面上:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">span</span> <span class="n">th</span><span class="p">:</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;$</span><span class="si">{appName}</span><span class="s2">&quot;</span><span class="o">&gt;</span><span class="n">Our</span> <span class="n">App</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modelmap">
+<h3><span class="section-number">9.3.2. </span>ModelMap<a class="headerlink" href="#modelmap" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/getMessageAndTime&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="nf">getMessageAndTime</span><span class="p">(</span><span class="n">ModelMap</span> <span class="n">map</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="n">ldt</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">();</span>
+
+    <span class="kd">var</span> <span class="n">fmt</span> <span class="o">=</span> <span class="n">DateTimeFormatter</span><span class="p">.</span><span class="na">ofLocalizedDateTime</span><span class="p">(</span>
+            <span class="n">FormatStyle</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">);</span>
+
+    <span class="n">fmt</span><span class="p">.</span><span class="na">withLocale</span><span class="p">(</span><span class="k">new</span> <span class="n">Locale</span><span class="p">(</span><span class="s">&quot;sk&quot;</span><span class="p">,</span> <span class="s">&quot;SK&quot;</span><span class="p">));</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="na">withZone</span><span class="p">(</span><span class="n">ZoneId</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;CET&quot;</span><span class="p">));</span>
+
+    <span class="kd">var</span> <span class="n">time</span> <span class="o">=</span> <span class="n">fmt</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="n">ldt</span><span class="p">);</span>
+
+    <span class="n">map</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;message&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">).</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;time&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="s">&quot;show&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="modelandview">
+<h3><span class="section-number">9.3.3. </span>ModelAndView<a class="headerlink" href="#modelandview" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/getMessage2&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="n">ModelAndView</span> <span class="nf">getMessage</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="n">mav</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ModelAndView</span><span class="p">();</span>
+
+    <span class="n">mav</span><span class="p">.</span><span class="na">addObject</span><span class="p">(</span><span class="s">&quot;message&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">);</span>
+    <span class="n">mav</span><span class="p">.</span><span class="na">setViewName</span><span class="p">(</span><span class="s">&quot;show&quot;</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">mav</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="modelattribute">
+<h3><span class="section-number">9.3.4. </span>&#64;ModelAttribute<a class="headerlink" href="#modelattribute" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nd">@ModelAttribute</span><span class="p">(</span><span class="s">&quot;motd&quot;</span><span class="p">)</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="nf">message</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="k">return</span> <span class="n">messageService</span><span class="p">.</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="webjars">
+<h2><span class="section-number">9.4. </span>webjars<a class="headerlink" href="#webjars" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.webjars.org">https://www.webjars.org</a></p></li>
+<li><p><a class="reference external" href="https://www.baeldung.com/maven-webjars">https://www.baeldung.com/maven-webjars</a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="entity.html" class="btn btn-neutral float-right" title="10. Spring Boot Entity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="service.html" class="btn btn-neutral float-left" title="8. Spring Boot Service" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

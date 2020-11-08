@@ -1,0 +1,558 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. 初识 Maven</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. 初识 Git" href="git.html" />
+    <link rel="prev" title="1. 教学计划" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 初识 Maven</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2.1. Maven介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2.2. 多线程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.3. 跳过测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2.4. 编译失败后，接着编译</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2.5. 编译到最后再报错</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nexus">2.6. 使用 Nexus 本地私服</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aliyun">2.7. 使用 Aliyun 国内镜像</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#repository">2.8. 指定 Repository 目录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maven-properties">2.9. Maven Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maven-sources">2.10. Maven Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maven-proxy">2.11. Maven Proxy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">2.11.1. 命令行设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">2.11.2. 配置文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dependency-local-jar">2.12. Dependency local Jar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-jar">2.13. Install Jar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">2.14. MAVEN 属性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">2.14.1. 内置属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pom">2.14.2. POM属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">2.14.3. 自定义属性属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting">2.14.4. setting属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#java">2.14.5. Java系统属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">2.14.6. 环境变量属性</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#maven-opts">2.15. MAVEN_OPTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nexus-security">2.16. Nexus Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-in-eclipse">2.17. Error in Eclipse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">2.18. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">2. </span>初识 Maven</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="maven">
+<h1><span class="section-number">2. </span>初识 Maven<a class="headerlink" href="#maven" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><span class="section-number">2.1. </span>Maven介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-given docutils align-default" id="id13">
+<caption><span class="caption-text">Maven Lifecycle</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>phases</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>validate</p></td>
+<td><p>validate the project is correct and all necessary information is available</p></td>
+</tr>
+<tr class="row-odd"><td><p>compile</p></td>
+<td><p>compile the source code of the project</p></td>
+</tr>
+<tr class="row-even"><td><p>test</p></td>
+<td><p>test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed</p></td>
+</tr>
+<tr class="row-odd"><td><p>package</p></td>
+<td><p>take the compiled code and package it in its distributable format, such as a JAR.</p></td>
+</tr>
+<tr class="row-even"><td><p>verify</p></td>
+<td><p>run any checks on results of integration tests to ensure quality criteria are met</p></td>
+</tr>
+<tr class="row-odd"><td><p>install</p></td>
+<td><p>install the package into the local repository, for use as a dependency in other projects locally</p></td>
+</tr>
+<tr class="row-even"><td><p>deploy</p></td>
+<td><p>done in the build environment, copies the final package to the remote repository for sharing with other developers and projects</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">2.2. </span>多线程<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn</span> <span class="o">-</span><span class="n">T</span> <span class="mi">4</span> <span class="n">clean</span> <span class="n">install</span>  <span class="c1"># 用 4 个线程构建</span>
+<span class="n">mvn</span> <span class="o">-</span><span class="n">T</span> <span class="mi">1</span><span class="n">C</span> <span class="n">clean</span> <span class="n">install</span> <span class="c1"># 根据 CPU 核数每个核分配 1 个线程进行构建</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">2.3. </span>跳过测试<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DskipTests</span>               <span class="c1"># 不执行测试用例，但编译测试用例类生成相应的 class 文件至 target/test-classes 下</span>
+<span class="o">-</span><span class="n">Dmaven</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">skip</span><span class="o">=</span><span class="n">true</span>    <span class="c1"># 不执行测试用例，也不编译测试用例类</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2><span class="section-number">2.4. </span>编译失败后，接着编译<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn</span> <span class="o">-</span><span class="n">rf</span> <span class="p">:</span><span class="n">moduleName</span> <span class="n">clean</span> <span class="n">install</span>       <span class="c1"># 通过指定之前失败的模块名，可以继续之前的编译</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2><span class="section-number">2.5. </span>编译到最后再报错<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn</span> <span class="n">clean</span> <span class="n">install</span> <span class="o">--</span><span class="n">fail</span><span class="o">-</span><span class="n">at</span><span class="o">-</span><span class="n">end</span>         <span class="c1"># 跳过失败的模块，编译到最后再报错</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="nexus">
+<h2><span class="section-number">2.6. </span>使用 Nexus 本地私服<a class="headerlink" href="#nexus" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="aliyun">
+<h2><span class="section-number">2.7. </span>使用 Aliyun 国内镜像<a class="headerlink" href="#aliyun" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://maven.aliyun.com/mvn/view">https://maven.aliyun.com/mvn/view</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">repositories</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">repository</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nb">id</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">milestones</span><span class="o">&lt;/</span><span class="nb">id</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">Spring</span> <span class="n">Milestones</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">repo</span><span class="o">.</span><span class="n">spring</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">milestone</span><span class="o">&lt;/</span><span class="n">url</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">repository</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">repositories</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="repository">
+<h2><span class="section-number">2.8. </span>指定 Repository 目录<a class="headerlink" href="#repository" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!-- Default: ~/.m2/repository  --&gt;
+&lt;localRepository&gt;D:\apps\maven\repository&lt;/localRepository&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="maven-properties">
+<h2><span class="section-number">2.9. </span>Maven Properties<a class="headerlink" href="#maven-properties" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn</span> <span class="n">clean</span> <span class="n">install</span> <span class="o">-</span><span class="n">Dmy</span><span class="o">.</span><span class="n">property</span><span class="o">=</span><span class="n">propertyValue</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="maven-sources">
+<h2><span class="section-number">2.10. </span>Maven Sources<a class="headerlink" href="#maven-sources" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>mvn dependency:sources</p>
+</div></blockquote>
+</div>
+<div class="section" id="maven-proxy">
+<h2><span class="section-number">2.11. </span>Maven Proxy<a class="headerlink" href="#maven-proxy" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3><span class="section-number">2.11.1. </span>命令行设置<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Linux (bash)
+$ export MAVEN_OPTS=&quot;-DsocksProxyHost=10.10.10.10 -DsocksProxyPort=8080&quot;
+# Windows
+$ set MAVEN_OPTS=&quot;-DsocksProxyHost=10.10.10.10 -DsocksProxyPort=8080&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3><span class="section-number">2.11.2. </span>配置文件<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vim $MAVEN_HOME/conf/settings.xml
+&lt;proxies&gt;
+        &lt;proxy&gt;
+        &lt;id&gt;socks-proxy&lt;/id&gt;
+        &lt;active&gt;true&lt;/active&gt;
+        &lt;protocol&gt;socks5&lt;/protocol&gt;
+        &lt;host&gt;127.0.0.1&lt;/host&gt;
+        &lt;port&gt;1080&lt;/port&gt;
+        &lt;nonProxyHosts&gt;*.**.com&lt;/nonProxyHosts&gt;
+        &lt;/proxy&gt;
+&lt;/proxies&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dependency-local-jar">
+<h2><span class="section-number">2.12. </span>Dependency local Jar<a class="headerlink" href="#dependency-local-jar" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>com.sample<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>sample<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;scope&gt;</span>system<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;systemPath&gt;</span>${project.basedir}/src/main/resources/yourJar.jar<span class="nt">&lt;/systemPath&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="install-jar">
+<h2><span class="section-number">2.13. </span>Install Jar<a class="headerlink" href="#install-jar" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>mvn install:install-file -Dfile<span class="o">=</span>RetainSDI.jar -DgroupId<span class="o">=</span>com.ibm -DartifactId<span class="o">=</span>retain -Dversion<span class="o">=</span><span class="m">1</span>.0 -Dpackaging<span class="o">=</span>jar -DgeneratePom<span class="o">=</span><span class="nb">true</span>
+mvn deploy:deploy-file -DgroupId<span class="o">=</span>richinfo -DartifactId<span class="o">=</span>logscommon -Dversion<span class="o">=</span><span class="m">0</span>.0.1-SNAPSHOT -Dpackaging<span class="o">=</span>jar -Dfile<span class="o">=</span>/work/test/sftp_test/logscommon.jar -Durl<span class="o">=</span>http://scm:scm12345@112.35.28.123:8815/nexus/content/repositories/snapshots -DrepositoryId<span class="o">=</span>nexus -s settings.xml
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id8">
+<h2><span class="section-number">2.14. </span>MAVEN 属性<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3><span class="section-number">2.14.1. </span>内置属性<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>如${basedir}表示项目根目录，${version}表示项目版本。</p>
+</div>
+<div class="section" id="pom">
+<h3><span class="section-number">2.14.2. </span>POM属性<a class="headerlink" href="#pom" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;project&gt;</span>
+<span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+<span class="nt">&lt;groupId&gt;</span>org.sonatype.mavenbook<span class="nt">&lt;/groupId&gt;</span>
+<span class="nt">&lt;artifactId&gt;</span>project-a<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+<span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;finalName&gt;</span>${project.groupId}-${project.artifactId}<span class="nt">&lt;/finalName&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>可以使用点标记(.)的路径来引用POM元素的值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>${basedir} 项目根目录
+${project.build.directory} 构建目录，缺省为target
+${project.build.outputDirectory} 构建过程输出目录，缺省为target/classes
+${project.build.finalName} 产出物名称，缺省为${project.artifactId}-${project.version}
+${project.packaging} 打包类型，缺省为jar
+${project.xxx} 当前pom文件的任意节点的内容
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h3><span class="section-number">2.14.3. </span>自定义属性属性<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>用户可以在pom的&lt;properties&gt;元素下自定义maven属性。</p>
+</div>
+<div class="section" id="setting">
+<h3><span class="section-number">2.14.4. </span>setting属性<a class="headerlink" href="#setting" title="Permalink to this headline">¶</a></h3>
+<p>用户可以使用以settings开头的属性引用settings.xml中xml元素的值，如${settings.localRepository}指向用户本地仓库的地址。</p>
+</div>
+<div class="section" id="java">
+<h3><span class="section-number">2.14.5. </span>Java系统属性<a class="headerlink" href="#java" title="Permalink to this headline">¶</a></h3>
+<p>maven可以使用当前java系统的属性，如${user.home}指向了用户目录。</p>
+</div>
+<div class="section" id="id11">
+<h3><span class="section-number">2.14.6. </span>环境变量属性<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>env变量，暴露了你操作系统或者shell的环境变量。便 如在Maven POM中一个对${env.PATH}的引用将会被${PATH}环境变量替换，在Windows中为%PATH%。所有环境变量都可以使用以env.开头的属性。如：${env.JAVA_HOE}。</p>
+</div>
+</div>
+<div class="section" id="maven-opts">
+<h2><span class="section-number">2.15. </span>MAVEN_OPTS<a class="headerlink" href="#maven-opts" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MAVEN_OPTS</span><span class="p">:</span><span class="o">-</span><span class="n">Xmx1024m</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="nexus-security">
+<h2><span class="section-number">2.16. </span>Nexus Security<a class="headerlink" href="#nexus-security" title="Permalink to this headline">¶</a></h2>
+<p>问题描述：目前项目组的Artifact全部放在云仓库中，匿名用户也可以随时访问，存在很大的安全问题。</p>
+<ul class="simple">
+<li><p>解决办法</p>
+<ul>
+<li><p>统一给仓库添加权限认证，阻止匿名用户访问。</p></li>
+<li><p>选择 Security – Users – anonymous – config – status – Disabled</p></li>
+</ul>
+</li>
+<li><p>执行步骤</p>
+<ul>
+<li><p>使用项目组统一下发的settings.xml文件；</p></li>
+</ul>
+</li>
+<li><p>参考细节</p>
+<ul>
+<li><p>本地mvn命令加上参数“-s settings.xml”，（如果把settings文件替换mvn默认的全局文件的话，这个可以省略）;</p></li>
+<li><p>wget命令1：wget –auth-no-challenge –http-user=admin –http-password=admin123 <a class="reference external" href="http:url">http:url</a></p></li>
+<li><p>wget命令2：wget –auth-no-challenge –user=admin –password=admin123 <a class="reference external" href="http:url">http:url</a></p></li>
+<li><p>curl命令：curl -u admin:admin123 http:url</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="error-in-eclipse">
+<h2><span class="section-number">2.17. </span>Error in Eclipse<a class="headerlink" href="#error-in-eclipse" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Spring Boot 2.1.X 版本在 Eclipse showing “Maven Configuration Problem: Unknown”，我们需要在properties节点中加上maven-jar-plugin.version:</p></li>
+</ol>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;properties&gt;</span>
+        <span class="nt">&lt;java.version&gt;</span>1.8<span class="nt">&lt;/java.version&gt;</span>
+        <span class="nt">&lt;maven-jar-plugin.version&gt;</span>3.1.1<span class="nt">&lt;/maven-jar-plugin.version&gt;</span>
+<span class="nt">&lt;/properties&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id12">
+<h2><span class="section-number">2.18. </span>参考<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.baeldung.com/maven">https://www.baeldung.com/maven</a></p></li>
+<li><p><a class="reference external" href="https://jazz.net/downloads/rational-team-concert/releases/6.0.6.1?p=allDownloads">https://jazz.net/downloads/rational-team-concert/releases/6.0.6.1?p=allDownloads</a></p></li>
+<li><p>下面shell脚本演示的是打印文件夹下文件名的例子:</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-sh notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nv">search_dir</span><span class="o">=</span>/Users/murphy/Downloads/RTC-Client-plainJavaLib-6.0.6.1
+
+<span class="k">for</span> entry in <span class="sb">`</span>ls <span class="nv">$search_dir</span><span class="sb">`</span><span class="p">;</span> <span class="k">do</span>
+        <span class="c1"># echo $entry</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="si">${</span><span class="nv">entry</span><span class="p">##*.</span><span class="si">}</span> <span class="o">==</span> <span class="s2">&quot;jar&quot;</span> <span class="o">]</span>
+        <span class="k">then</span>
+        <span class="nb">echo</span> <span class="si">${</span><span class="nv">entry</span><span class="p">%.*</span><span class="si">}</span>
+        <span class="c1"># pwd</span>
+        <span class="k">fi</span>
+<span class="k">done</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="git.html" class="btn btn-neutral float-right" title="3. 初识 Git" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="1. 教学计划" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

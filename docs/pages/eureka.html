@@ -1,0 +1,872 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>24. Spring Cloud Eureka</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="25. Spring Cloud Feign" href="feign.html" />
+    <link rel="prev" title="23. Spring Cloud Netflix" href="netflix.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">14. Spring Boot MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">24. Spring Cloud Eureka</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">24.1. 服务发现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#eureka">24.2. Eureka</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eureka-server">24.2.1. Eureka Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eureka-client">24.2.2. Eureka Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rest">24.3. 发现REST服务</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eurekaclient">24.3.1. EurekaClient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discoveryclient">24.3.2. DiscoveryClient</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">24.4. 使用REST服务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">24.5. 负载平衡</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">24.6. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">24. </span>Spring Cloud Eureka</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-cloud-eureka">
+<h1><span class="section-number">24. </span>Spring Cloud Eureka<a class="headerlink" href="#spring-cloud-eureka" title="Permalink to this headline">¶</a></h1>
+<p>本节将通过Spring Cloud Netflix Eureka介绍客户端服务发现和负载平衡。</p>
+<div class="section" id="id1">
+<h2><span class="section-number">24.1. </span>服务发现<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>在典型的微服务体系结构中，我们有许多单独部署的小型应用程序，它们经常需要彼此通信。具体地说，当我们说客户服务时，我们指的是需要对其他终端服务进行REST调用的服务。</p>
+<p>这种体系结构中的问题是客户端服务如何找到其所有最终服务。我们可以在某些属性文件中对主机名/端口进行硬编码，但这在云环境中并不总是可行。可能有任意数量的微服务，并且当数量不确定且它们的位置可能发生变化时，进行硬编码很费时间和资源。</p>
+<p>因此，微服务中引入了服务发现组件，也就是注册中心，一般使用Eureka,也有其他的组件,Consul,zookeeper等。实际使用中，将微服务都注册到注册中心，注册中已经包含了微服务的ip等信息，这样，微服务之间互相调用时，就可以现在注册中心获取对应微服务的ip信息。这样就不用自己维护很多的配置文件了。</p>
+</div>
+<div class="section" id="eureka">
+<h2><span class="section-number">24.2. </span>Eureka<a class="headerlink" href="#eureka" title="Permalink to this headline">¶</a></h2>
+<p>Eureka是Netflix开源的服务发现组件，本身是一个基于REST的服务，包含Server和Client两部分，Spring Cloud将它集成在子项目Spring Cloud Netflix中。在微服务系统中，我们需要单独创建一个Eureka Server作为注册中心，其他的微服务就相当于客户端，注册到我们的注册中心中。</p>
+<div class="section" id="eureka-server">
+<h3><span class="section-number">24.2.1. </span>Eureka Server<a class="headerlink" href="#eureka-server" title="Permalink to this headline">¶</a></h3>
+<p>实施Eureka Server进行服务注册非常简单：</p>
+<ol class="arabic simple">
+<li><p>将spring-cloud-starter-netflix-eureka-server添加到依赖项</p></li>
+<li><p>通过使用&#64;EnableEurekaServer注解在&#64;SpringBootApplication中启用Eureka服务器</p></li>
+<li><p>配置一些属性</p></li>
+</ol>
+<p>下面，我们将逐步进行。</p>
+<ol class="arabic simple">
+<li><p>添加依赖项</p></li>
+</ol>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li><p>添加&#64;EnableEurekaServer注解</p></li>
+</ol>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.docedit.springcloudconfigserver</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.netflix.eureka.server.EnableEurekaServer</span><span class="p">;</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableEurekaServer</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringCloudEurekaServerApplication</span> <span class="p">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">SpringCloudEurekaServerApplication</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li><p>配置属性</p></li>
+</ol>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span>server.port=8761
+eureka.client.registerWithEureka=false
+eureka.client.fetchRegistry=false
+
+eureka.instance.hostname=localhost
+eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${server.port}/eureka/
+</pre></div>
+</td></tr></table></div>
+<p>在这里，我们正在配置一个应用程序端口：Eureka服务器的默认端口是8761。 我们告诉内置的Eureka Client不要注册“自己”，因为我们的应用程序仅充当服务器。<a class="reference external" href="http://localhost:8761/eureka">http://localhost:8761/eureka</a>/是默认的url，因此defaultZone处的配置可以省略。</p>
+<ol class="arabic simple" start="4">
+<li><p>检查结果，打开浏览器，访问地址：<a class="reference external" href="http://localhost:8761">http://localhost:8761</a> 查看Eureka仪表板，稍后我们将在其中检查注册的实例。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-1.png"><img alt="../_images/cloud-eureka-1.png" src="../_images/cloud-eureka-1.png" style="width: 600px;" /></a>
+<p>目前，我们可以看到基本指标，例如状态和健康指标。</p>
+</div>
+<div class="section" id="eureka-client">
+<h3><span class="section-number">24.2.2. </span>Eureka Client<a class="headerlink" href="#eureka-client" title="Permalink to this headline">¶</a></h3>
+<p>为了使Eureka Client能够被发现，我们必须在类路径classpath中包含一些Spring Discovery Client（例如spring-cloud-starter-netflix-eureka-client）。然后，我们需要使用&#64;EnableDiscoveryClient或&#64;EnableEurekaClient标签。注意，如果我们的类路径classpath具有spring-cloud-starter-netflix-eureka-client依赖项，则&#64;EnableDiscoveryClient或&#64;EnableEurekaClient是可选的。</p>
+<p>注解&#64;EnableDiscoveryClient或&#64;EnableEurekaClient告诉Spring Boot明确使用Spring Netflix Eureka进行服务发现。</p>
+<ol class="arabic simple">
+<li><p>首先，我们将添加依赖项：</p></li>
+</ol>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li><p>创建RestController：</p></li>
+</ol>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.trainingeurekaclient.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GreetingController</span> <span class="p">{</span>
+
+    <span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${spring.application.name}&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">appName</span><span class="p">;</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;Hello from &#39;%s&#39;!&quot;</span><span class="p">,</span> <span class="n">appName</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li><p>添加&#64;EnableDiscoveryClient</p></li>
+</ol>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.trainingeurekaclient</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.netflix.eureka.EnableEurekaClient</span><span class="p">;</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableEurekaClient</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TrainingEurekaClientApplication</span> <span class="p">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">TrainingEurekaClientApplication</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="4">
+<li><p>添加application.properties</p></li>
+</ol>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span>spring.application.name=spring-cloud-eureka-client
+server.port=0
+eureka.client.serviceUrl.defaultZone=${EUREKA_URI:http://localhost:8761/eureka}
+eureka.instance.preferIpAddress=true
+
+info.app.name=${spring.application.name}
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>server.port=0 表示选择一个随机端口，因为稍后我们将使用其名称访问此服务。</p></li>
+<li><p>eureka.instance.preferIpAddress=true表示使用IP进行注册。</p></li>
+<li><p>info.app.name 表示返回healthcheck（“/actuator/info”）的内容</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>${EUREKA_URI:<a class="reference external" href="http://localhost:8761/eureka">http://localhost:8761/eureka</a>}，这个变量的意思是，当存在环境变量EUREKA_URI时，使用EUREKA_URI的值，如果没有的话，默认使用http://localhost:8761/eureka e.g. in production environment.</p>
+</div>
+<p>现在，我们将运行客户端，并将浏览器再次指向http://localhost:8761，以在Eureka仪表板上查看其注册状态。通过使用仪表板，我们可以进行进一步的配置，例如为了管理目的，将注册客户端的主页与仪表板链接。 但是，配置选项不在本文讨论范围之内。</p>
+<ol class="arabic simple" start="5">
+<li><p>打开浏览器，访问地址：<a class="reference external" href="http://localhost:8761">http://localhost:8761</a> 查看Eureka仪表板，我们将在其中看到已经注册的实例。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-2.png"><img alt="../_images/cloud-eureka-2.png" src="../_images/cloud-eureka-2.png" style="width: 800px;" /></a>
+<ol class="arabic simple" start="6">
+<li><p>点击仪表盘上面的Instances currently registered with Eureka区域中的link,</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-3.png"><img alt="../_images/cloud-eureka-3.png" src="../_images/cloud-eureka-3.png" style="width: 600px;" /></a>
+<ol class="arabic simple" start="7">
+<li><p>将url的后缀改为：/hello，将会看到下面的信息显示。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-4.png"><img alt="../_images/cloud-eureka-4.png" src="../_images/cloud-eureka-4.png" style="width: 600px;" /></a>
+</div>
+</div>
+<div class="section" id="rest">
+<h2><span class="section-number">24.3. </span>发现REST服务<a class="headerlink" href="#rest" title="Permalink to this headline">¶</a></h2>
+<p>各个客户端可能需要相互访问，首先需要彼此知道对方存在，即发现REST服务，这里介绍2种实现方式。</p>
+<div class="section" id="eurekaclient">
+<h3><span class="section-number">24.3.1. </span>EurekaClient<a class="headerlink" href="#eurekaclient" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Clone上面的“spring-cloud-eureka-client”项目，其中“spring.application.name”更换为“spring-cloud-eureka-eurekaClient”。</p></li>
+<li><p>在GreetingController中新增一个方法，具体代码如下：</p></li>
+</ol>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.trainingeurekaclient.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Lazy</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.netflix.appinfo.InstanceInfo</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.netflix.discovery.EurekaClient</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.netflix.discovery.shared.Application</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GreetingController</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="nd">@Lazy</span>
+    <span class="kd">private</span> <span class="n">EurekaClient</span> <span class="n">eurekaClient</span><span class="p">;</span>
+
+    <span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${spring.application.name}&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">appName</span><span class="p">;</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/greeting&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">greeting</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Application</span> <span class="n">application</span> <span class="o">=</span> <span class="n">eurekaClient</span><span class="p">.</span><span class="na">getApplication</span><span class="p">(</span><span class="s">&quot;spring-cloud-eureka-client&quot;</span><span class="p">);</span>
+        <span class="n">InstanceInfo</span> <span class="n">instanceInfo</span> <span class="o">=</span> <span class="n">application</span><span class="p">.</span><span class="na">getInstances</span><span class="p">().</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="n">String</span> <span class="n">hostname</span> <span class="o">=</span> <span class="n">instanceInfo</span><span class="p">.</span><span class="na">getHostName</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="n">instanceInfo</span><span class="p">.</span><span class="na">getPort</span><span class="p">();</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;Hello from &#39;%s&#39;, &#39;%s&#39;, &#39;%s&#39;!&quot;</span><span class="p">,</span> <span class="n">application</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;Hello from &#39;%s&#39;!&quot;</span><span class="p">,</span> <span class="n">eurekaClient</span><span class="p">.</span><span class="na">getApplication</span><span class="p">(</span><span class="n">appName</span><span class="p">).</span><span class="na">getName</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>代码中注入了EurekaClient实体类，我们需要延迟加载EurekaClient，因此这里使用&#64;Lazy注解。</p></li>
+<li><p>通过EurekaClient实例我们可以接收一个以service-name命名的服务信息作为Application对象。根据此对象获取该服务的所有实例的列表，选择一个合适的实例，然后使用此实例获取主机名和端口。 这样，我们可以对任何http客户端发出标准请求。</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>启动应用后，仪表板上将会新增一个实例。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-5.png"><img alt="../_images/cloud-eureka-5.png" src="../_images/cloud-eureka-5.png" style="width: 800px;" /></a>
+<ol class="arabic simple" start="6">
+<li><p>点击仪表盘上面的Instances currently registered with Eureka区域中的link,</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-6.png"><img alt="../_images/cloud-eureka-6.png" src="../_images/cloud-eureka-6.png" style="width: 600px;" /></a>
+<ol class="arabic simple" start="7">
+<li><p>将url的后缀改为：/greeting，将会看到下面的信息显示。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-7.png"><img alt="../_images/cloud-eureka-7.png" src="../_images/cloud-eureka-7.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="discoveryclient">
+<h3><span class="section-number">24.3.2. </span>DiscoveryClient<a class="headerlink" href="#discoveryclient" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Clone上面的“spring-cloud-eureka-client”项目，其中“spring.application.name”更换为“spring-cloud-eureka-discoveryClient”。</p></li>
+<li><p>在GreetingController中新增一个方法，具体代码如下：</p></li>
+</ol>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.trainingeurekaclient.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.client.ServiceInstance</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.client.discovery.DiscoveryClient</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Lazy</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GreetingController</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="nd">@Lazy</span>
+    <span class="kd">private</span> <span class="n">DiscoveryClient</span> <span class="n">discoveryClient</span><span class="p">;</span>
+
+    <span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${spring.application.name}&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">appName</span><span class="p">;</span>
+
+    <span class="nd">@GetMapping</span><span class="p">({</span> <span class="s">&quot;/get-instances&quot;</span><span class="p">,</span> <span class="s">&quot;/get-instances/{applicationName}&quot;</span> <span class="p">})</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ServiceInstance</span><span class="o">&gt;</span> <span class="nf">serviceInstancesByApplicationName</span><span class="p">(</span><span class="nd">@PathVariable</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">applicationName</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">String</span> <span class="n">newName</span> <span class="o">=</span> <span class="n">appName</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">applicationName</span><span class="p">.</span><span class="na">isPresent</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">newName</span> <span class="o">=</span> <span class="n">applicationName</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="na">discoveryClient</span><span class="p">.</span><span class="na">getInstances</span><span class="p">(</span><span class="n">newName</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>代码中注入了DiscoveryClient实体类，我们需要延迟加载DiscoveryClient，因此这里使用&#64;Lazy注解。</p></li>
+<li><p>通过DiscoveryClient实例我们可以接收一个以service-name命名的服务信息，返回该服务的所有实例的列表，选择一个合适的实例，然后使用此实例获取主机名和端口。 这样，我们可以对任何http客户端发出标准请求。</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>启动应用后，仪表板上将会新增一个实例。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-8.png"><img alt="../_images/cloud-eureka-8.png" src="../_images/cloud-eureka-8.png" style="width: 800px;" /></a>
+<ol class="arabic simple" start="6">
+<li><p>点击仪表盘上面的Instances currently registered with Eureka区域中的link,</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-9.png"><img alt="../_images/cloud-eureka-9.png" src="../_images/cloud-eureka-9.png" style="width: 600px;" /></a>
+<ol class="arabic simple" start="7">
+<li><p>将url的后缀改为：get-instances，将会看到下面的信息显示。</p></li>
+</ol>
+<div class="highlight-json notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;9.112.136.214&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">56565</span><span class="p">,</span>
+    <span class="nt">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="nt">&quot;instanceId&quot;</span><span class="p">:</span> <span class="s2">&quot;9.112.136.214:spring-cloud-eureka-discoveryClient:0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;serviceId&quot;</span><span class="p">:</span> <span class="s2">&quot;SPRING-CLOUD-EUREKA-DISCOVERYCLIENT&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;secure&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;http://9.112.136.214:56565&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;instanceInfo&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;instanceId&quot;</span><span class="p">:</span> <span class="s2">&quot;9.112.136.214:spring-cloud-eureka-discoveryClient:0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;app&quot;</span><span class="p">:</span> <span class="s2">&quot;SPRING-CLOUD-EUREKA-DISCOVERYCLIENT&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;appGroupName&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nt">&quot;ipAddr&quot;</span><span class="p">:</span> <span class="s2">&quot;9.112.136.214&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;sid&quot;</span><span class="p">:</span> <span class="s2">&quot;na&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;homePageUrl&quot;</span><span class="p">:</span> <span class="s2">&quot;http://9.112.136.214:56565/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;statusPageUrl&quot;</span><span class="p">:</span> <span class="s2">&quot;http://9.112.136.214:56565/actuator/info&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;healthCheckUrl&quot;</span><span class="p">:</span> <span class="s2">&quot;http://9.112.136.214:56565/actuator/health&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;secureHealthCheckUrl&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nt">&quot;vipAddress&quot;</span><span class="p">:</span> <span class="s2">&quot;spring-cloud-eureka-discoveryClient&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;secureVipAddress&quot;</span><span class="p">:</span> <span class="s2">&quot;spring-cloud-eureka-discoveryClient&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;countryId&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;dataCenterInfo&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;@class&quot;</span><span class="p">:</span> <span class="s2">&quot;com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;MyOwn&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;hostName&quot;</span><span class="p">:</span> <span class="s2">&quot;9.112.136.214&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;UP&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;overriddenStatus&quot;</span><span class="p">:</span> <span class="s2">&quot;UNKNOWN&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;leaseInfo&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;renewalIntervalInSecs&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="nt">&quot;durationInSecs&quot;</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
+        <span class="nt">&quot;registrationTimestamp&quot;</span><span class="p">:</span> <span class="mi">1573113213787</span><span class="p">,</span>
+        <span class="nt">&quot;lastRenewalTimestamp&quot;</span><span class="p">:</span> <span class="mi">1573113213787</span><span class="p">,</span>
+        <span class="nt">&quot;evictionTimestamp&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&quot;serviceUpTimestamp&quot;</span><span class="p">:</span> <span class="mi">1573112678995</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;isCoordinatingDiscoveryServer&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="nt">&quot;lastUpdatedTimestamp&quot;</span><span class="p">:</span> <span class="mi">1573113213787</span><span class="p">,</span>
+    <span class="nt">&quot;lastDirtyTimestamp&quot;</span><span class="p">:</span> <span class="mi">1573113213225</span><span class="p">,</span>
+    <span class="nt">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;ADDED&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;asgName&quot;</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">},</span>
+<span class="nt">&quot;scheme&quot;</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">24.4. </span>使用REST服务<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>RestTemplate</p>
+<p><a class="reference external" href="https://www.baeldung.com/rest-template">https://www.baeldung.com/rest-template</a></p>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">24.5. </span>负载平衡<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>我们以工程“spring-cloud-eureka-discoveryClient”为例，换个不同的端口，再部署一个，仪表板显示如下：</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-10.png"><img alt="../_images/cloud-eureka-10.png" src="../_images/cloud-eureka-10.png" style="width: 600px;" /></a>
+<ol class="arabic simple" start="2">
+<li><p>点击仪表盘上面的Instances currently registered with Eureka区域中的link，然后将url的后缀改为：get-instances，将会看到下面的信息显示。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/cloud-eureka-11.png"><img alt="../_images/cloud-eureka-11.png" src="../_images/cloud-eureka-11.png" style="width: 600px;" /></a>
+<p>上图显示了2个实例信息。</p>
+<p>下面示例演示&#64;LoadBalanced注解，它提供负载均衡功能。</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.trainingeurekaclient.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.client.loadbalancer.LoadBalanced</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Lazy</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.client.RestTemplate</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.netflix.discovery.EurekaClient</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GreetingController</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="nd">@Lazy</span>
+    <span class="kd">private</span> <span class="n">EurekaClient</span> <span class="n">eurekaClient</span><span class="p">;</span>
+
+    <span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${spring.application.name}&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">appName</span><span class="p">;</span>
+
+    <span class="nd">@LoadBalanced</span>
+    <span class="nd">@Bean</span>
+    <span class="n">RestTemplate</span> <span class="nf">restTemplate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">RestTemplate</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">RestTemplate</span> <span class="n">restTemplate</span><span class="p">;</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/greeting&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">greeting</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">String</span> <span class="n">greeting</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="na">restTemplate</span><span class="p">.</span><span class="na">getForObject</span><span class="p">(</span><span class="s">&quot;http://spring-cloud-eureka-client/greeting&quot;</span><span class="p">,</span> <span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;%s, %s!&quot;</span><span class="p">,</span> <span class="n">greeting</span><span class="p">,</span> <span class="n">appName</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;Hello from &#39;%s&#39;!&quot;</span><span class="p">,</span> <span class="n">eurekaClient</span><span class="p">.</span><span class="na">getApplication</span><span class="p">(</span><span class="n">appName</span><span class="p">).</span><span class="na">getName</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id4">
+<h2><span class="section-number">24.6. </span>参考<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://cloud.spring.io/spring-cloud-netflix/reference/html/">https://cloud.spring.io/spring-cloud-netflix/reference/html/</a></p></li>
+<li><p><a class="reference external" href="https://www.baeldung.com/spring-cloud-netflix-eureka">https://www.baeldung.com/spring-cloud-netflix-eureka</a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="feign.html" class="btn btn-neutral float-right" title="25. Spring Cloud Feign" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="netflix.html" class="btn btn-neutral float-left" title="23. Spring Cloud Netflix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

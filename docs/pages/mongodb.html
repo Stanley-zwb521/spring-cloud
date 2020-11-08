@@ -1,0 +1,561 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>14. Spring Boot MongoDB</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="15. SLF4J" href="slf4j.html" />
+    <link rel="prev" title="13. Spring Boot Redis" href="redis.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Spring-Cloud
+          
+
+          
+            
+            <img src="../_static/icon-Spring-Cloud.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. 教学计划</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maven.html">2. 初识 Maven</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">3. 初识 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">4. 初识 Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">5. Spring Boot CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springboot.html">6. Spring Boot 2.x 学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">7. Spring Boot Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service.html">8. Spring Boot Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages.html">9. Spring Boot Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entity.html">10. Spring Boot Entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jpa.html">11. Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springdatarest.html">12. Spring Data REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redis.html">13. Spring Boot Redis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">14. Spring Boot MongoDB</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mongodb">14.1. 开始使用MongoDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maven">14.2. Maven依赖</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crud">14.3. CRUD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#entity">14.3.1. Entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#repository">14.3.2. Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#service">14.3.3. Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#restcontroller">14.3.4. RestController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#application-properties">14.3.5. application.properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">14.3.6. Mongodb</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">14.4. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="slf4j.html">15. SLF4J</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoconfiguration.html">16. Spring Boot Auto-Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">17. Spring Boot Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actuator.html">18. Spring Boot Actuator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">19. Spring Boot RESTful</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">20. Springfox-Swagger2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloud.html">21. Spring Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="springcloudconfig.html">22. Spring Cloud Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netflix.html">23. Spring Cloud Netflix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eureka.html">24. Spring Cloud Eureka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feign.html">25. Spring Cloud Feign</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zuul.html">26. Spring Cloud Zuul</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elk.html">27. ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">28. Kubernetes学习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assignment.html">29. Assignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx.html">30. Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interview.html">31. Spring Cloud Interview</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spring-Cloud</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">首页</a> &raquo;</li>
+        
+      <li><span class="section-number">14. </span>Spring Boot MongoDB</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-boot-mongodb">
+<h1><span class="section-number">14. </span>Spring Boot MongoDB<a class="headerlink" href="#spring-boot-mongodb" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="mongodb">
+<h2><span class="section-number">14.1. </span>开始使用MongoDB<a class="headerlink" href="#mongodb" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="maven">
+<h2><span class="section-number">14.2. </span>Maven依赖<a class="headerlink" href="#maven" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nt">&lt;parent&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>2.2.1.RELEASE<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;relativePath/&gt;</span> <span class="c">&lt;!-- lookup parent from repository --&gt;</span>
+    <span class="nt">&lt;/parent&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-mongodb<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="crud">
+<h2><span class="section-number">14.3. </span>CRUD<a class="headerlink" href="#crud" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="entity">
+<h3><span class="section-number">14.3.1. </span>Entity<a class="headerlink" href="#entity" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.mongodb.entity</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.annotation.Id</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.core.mapping.Document</span><span class="p">;</span>
+
+<span class="nd">@Document</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Customer</span> <span class="p">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">id</span><span class="p">;</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">firstName</span><span class="p">;</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">lastName</span><span class="p">;</span>
+
+    <span class="kd">public</span> <span class="nf">Customer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="nf">Customer</span><span class="p">(</span><span class="n">String</span> <span class="n">firstName</span><span class="p">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">firstName</span> <span class="o">=</span> <span class="n">firstName</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">lastName</span> <span class="o">=</span> <span class="n">lastName</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;Customer[id=%s, firstName=&#39;%s&#39;, lastName=&#39;%s&#39;]&quot;</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">firstName</span><span class="p">,</span> <span class="n">lastName</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="repository">
+<h3><span class="section-number">14.3.2. </span>Repository<a class="headerlink" href="#repository" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.mongodb.repository</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.repository.MongoRepository</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Repository</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.example.mongodb.entity.Customer</span><span class="p">;</span>
+
+<span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerRepository</span> <span class="kd">extends</span> <span class="n">MongoRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="p">{</span>
+
+<span class="kd">public</span> <span class="n">Customer</span> <span class="nf">findByFirstName</span><span class="p">(</span><span class="n">String</span> <span class="n">firstName</span><span class="p">);</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="nf">findByLastName</span><span class="p">(</span><span class="n">String</span> <span class="n">lastName</span><span class="p">);</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="service">
+<h3><span class="section-number">14.3.3. </span>Service<a class="headerlink" href="#service" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.mongodb.service</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.example.mongodb.entity.Customer</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.example.mongodb.repository.CustomerRepository</span><span class="p">;</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerService</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">CustomerRepository</span> <span class="n">customerRepository</span><span class="p">;</span>
+
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="nf">getCustomers</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">customerRepository</span><span class="p">.</span><span class="na">deleteAll</span><span class="p">();</span>
+
+        <span class="c1">// save a couple of customers</span>
+        <span class="n">customerRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Customer</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span> <span class="s">&quot;Smith&quot;</span><span class="p">));</span>
+        <span class="n">customerRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Customer</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span> <span class="s">&quot;Smith&quot;</span><span class="p">));</span>
+
+        <span class="c1">// fetch all customers</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Customers found with findAll():&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;-------------------------------&quot;</span><span class="p">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="n">customers</span> <span class="o">=</span> <span class="n">customerRepository</span><span class="p">.</span><span class="na">findAll</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">Customer</span> <span class="n">customer</span> <span class="p">:</span> <span class="n">customers</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">customer</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">();</span>
+
+        <span class="c1">// fetch an individual customer</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Customer found with findByFirstName(&#39;Alice&#39;):&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;--------------------------------&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">customerRepository</span><span class="p">.</span><span class="na">findByFirstName</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">));</span>
+
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Customers found with findByLastName(&#39;Smith&#39;):&quot;</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;--------------------------------&quot;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">Customer</span> <span class="n">customer</span> <span class="p">:</span> <span class="n">customerRepository</span><span class="p">.</span><span class="na">findByLastName</span><span class="p">(</span><span class="s">&quot;Smith&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">customer</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">customers</span><span class="p">;</span>
+
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="restcontroller">
+<h3><span class="section-number">14.3.4. </span>RestController<a class="headerlink" href="#restcontroller" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.example.mongodb.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.example.mongodb.entity.Customer</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.example.mongodb.service.CustomerService</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerController</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">CustomerService</span> <span class="n">customerService</span><span class="p">;</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/customer&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;&gt;</span> <span class="nf">getCustomer</span><span class="p">(</span><span class="n">String</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">customerService</span><span class="p">.</span><span class="na">getCustomers</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="application-properties">
+<h3><span class="section-number">14.3.5. </span>application.properties<a class="headerlink" href="#application-properties" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spring</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mongodb</span><span class="o">.</span><span class="n">username</span><span class="o">=</span><span class="n">root_app</span>
+<span class="n">spring</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mongodb</span><span class="o">.</span><span class="n">password</span><span class="o">=</span><span class="n">root123</span>
+<span class="n">spring</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mongodb</span><span class="o">.</span><span class="n">database</span><span class="o">=</span><span class="n">mymongo</span>
+<span class="n">spring</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mongodb</span><span class="o">.</span><span class="n">port</span><span class="o">=</span><span class="mi">27017</span>
+<span class="n">spring</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mongodb</span><span class="o">.</span><span class="n">host</span><span class="o">=</span><span class="n">localhost</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3><span class="section-number">14.3.6. </span>Mongodb<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>访问：<a class="reference external" href="http://localhost:8080/customer">http://localhost:8080/customer</a> ， 显示如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;5de08e14afacb903cc733ac9&quot;</span><span class="p">,</span><span class="s2">&quot;firstName&quot;</span><span class="p">:</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span><span class="s2">&quot;lastName&quot;</span><span class="p">:</span><span class="s2">&quot;Smith&quot;</span><span class="p">},</span>
+<span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;5de08e14afacb903cc733aca&quot;</span><span class="p">,</span><span class="s2">&quot;firstName&quot;</span><span class="p">:</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span><span class="s2">&quot;lastName&quot;</span><span class="p">:</span><span class="s2">&quot;Smith&quot;</span><span class="p">}]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Mongodb客户端：</p></li>
+</ol>
+<img alt="alternate text" src="../_images/mongodb.png" />
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">14.4. </span>参考<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://spring.io/guides/gs/accessing-data-mongodb/">https://spring.io/guides/gs/accessing-data-mongodb/</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="slf4j.html" class="btn btn-neutral float-right" title="15. SLF4J" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="redis.html" class="btn btn-neutral float-left" title="13. Spring Boot Redis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Murphy
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
